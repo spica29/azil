@@ -1,0 +1,188 @@
+body {
+	/*margin: auto 0;*/
+	margin: 3% 5% 3% 5%;
+}
+
+nav {
+	margin: auto 0;
+}
+
+nav ul {
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav ul li {
+	float: left;
+    border-right:1px solid #bbb;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 40px;
+    text-decoration: none;
+}
+
+nav ul li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+	background-color: #660033;
+}
+
+/* forma css */
+form {
+    display: block;
+    margin: auto 0;
+}
+
+input, textarea {
+    width: 80%;
+    padding: 2% 2%;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+
+
+    margin-right: auto;
+    margin-left: auto;
+}
+
+label {
+    color: white;
+    text-transform: uppercase;
+    display: block;
+    width: 20%;
+    margin-top: 2%;
+}
+
+#kontakt-forma {
+    border-radius: 25px;
+    border: 3px solid #333;
+    display: block;
+    padding: 2%;
+    margin-top: 2%;
+    background-color: #660033;
+    width: 70%;
+}
+
+input[type=submit] {
+    width: 84%;
+    background-color: #33001a;
+    color: white;
+    padding: 14px 20px;
+    font-size: 20px;
+    margin: 8px 0;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #1a000d;
+}
+
+.wrap{
+position:absolute;
+background:transparent;
+left:90px; 
+top:0px;
+width:150px;
+height:120px;
+}
+
+.wrap:hover ~ body{
+	background:green;
+}
+
+
+.pad {
+    position: relative;
+    left: 50px; top:60px; 
+    background: #000;
+    width: 50px; height: 50px;
+    border-radius: 200px/250px;
+}
+
+.toe-1 {
+    position:relative;
+    left:14px; 
+    top:-13px; 
+    background:#660033;
+    width: 26px; 
+    height:36px;
+    border-radius:70px/100px;
+    /**/
+    background-color: #660033; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(-45deg, #660033, #84325b); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(-45deg, #660033, #84325b); /* Standard syntax */
+    transform: rotate(-30deg);
+    border: 3px solid black;
+}
+.toe-2 {
+    position:relative;
+    left:41px;
+    top:-73px; 
+    background:#660033;
+    width: 26px; 
+    height:36px;
+    border-radius:70px/100px;
+    border: 3px solid black;
+    /**/
+    background-color: #660033; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(-45deg, #660033, #84325b); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(-45deg, #660033, #84325b); /* Standard syntax */
+    transform: rotate(-15deg);
+}
+.toe-3 {
+    position:relative;
+    left:75px; 
+    top:-115px; 
+    background:#660033;
+    width: 26px; 
+    height: 36px;
+    border-radius:70px/100px;
+    border: 3px solid black;
+    /**/
+
+    background-color: #660033; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(-45deg, #660033, #84325b); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(-45deg, #660033, #84325b); /* Standard syntax */
+    transform: rotate(15deg);
+}
+.toe-4 {
+    position:relative;
+    left:100px;
+    top:-135px; 
+    background:#660033;
+    width: 26px; 
+    height: 36px;
+    border-radius:70px/100px;
+    /**/
+
+    background-color: #660033; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(-45deg, #660033, #84325b); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(-45deg, #660033, #84325b); /* Standard syntax */
+    border: 3px solid black;
+    transform: rotate(30deg);
+}
+
+header h1{
+    text-align: center;
+}
