@@ -3,6 +3,7 @@
 	<meta charset="UTF-8">
 	<title>Azil za životinje</title>
 	<link rel="stylesheet" type="text/css" href="contact.css">
+	<script type="text/javascript" src="contact.js"></script>
 </head>
 <body>
 	
@@ -32,11 +33,18 @@
 
 	<form id="kontakt-forma">	
 		<label for="name">Ime i prezime: </label>
-		<input type="text" name="name" id="name">
+		<input type="text" name="name" id="name" onkeyup="validirajIme(this)">
 		<br>
 		<label for="email">Email: </label>
-		<input type="email" name="mail" id="email">
-		<br>
+		<input type="email" name="mail" id="email" onkeyup="validirajEmail(this)">
+		<br><br>
+		<div id="drzava">
+			<input type="radio" id="drzava1" onclick="val_drzava()" name="drzavaa" value="Bosna i Hercegovina"> Bosna i Hercegovina
+			<input type="radio" id="drzava2" onclick="val_drzava()" name="drzavaa" value="Srbija"> Srbija
+			<input type="radio" id="drzava3" onclick="val_drzava()" name="drzavaa" value="Hrvatska">Hrvatska
+		</div><br><br>
+		<label for="brojTel">Broj telefona (sa pozivnim): </label>
+		<input type="test" name="brojTel" id="brojTel" onkeyup="validirajTel(this)">
 		<label for="poruka">Poruka: </label>
 		<textarea name="poruka" id="poruka" cols="60" rows="10"></textarea>
 		<br>
