@@ -1,4 +1,4 @@
-function val_drzava(){ console.log("USAO");
+function val_drzava(){ 
 	var obj = document.getElementById("brojTel");
 	var v1 = document.getElementById("drzava1").checked;
 	var v2 = document.getElementById("drzava2").checked;
