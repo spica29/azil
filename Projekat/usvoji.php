@@ -2,9 +2,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Azil za životinje</title>
-	<link rel="stylesheet" type="text/css" href="usvoji.css">
+	<link rel="stylesheet" type="text/css" href="css/usvoji.css">
 </head>
 <body>
+	<?php 
+		include 'loginfunc.php';
+	?>
 	
 	<div class="wrap">
 		<div class="pad"></div>
@@ -22,11 +25,12 @@
 	
 	<nav>
 		<ul>
-			<li><b><a href="index.html">NASLOVNICA</a></b></li>
-			<li><b><a class="active" href="usvoji.html">USVOJI</a></b></li>
-			<li><b><a href="postanifoster.html">POSTANI FOSTER</a></b></li>
-			<li><b><a href="oazilu.html">O AZILU</a></b></li>
-			<li><b><a href="contact.html">KONTAKT</a></b></li>
+			<li><b><a href="index.php">NASLOVNICA</a></b></li>
+			<li><b><a class="active" href="usvoji.php">USVOJI</a></b></li>
+			<li><b><a href="postanifoster.php">POSTANI FOSTER</a></b></li>
+			<li><b><a href="oazilu.php">O AZILU</a></b></li>
+			<li><b><a href="contact.php">KONTAKT</a></b></li>
+			<li><b><a href="login.php">LOGIN</a></b></li>
 		</ul>
 	</nav>
 	<h2>Udomi psa!</h2>
