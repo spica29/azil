@@ -3,6 +3,7 @@ body {
 	margin: 3% 5% 3% 5%;
 }
 
+/* nav css */
 nav {
 	margin: auto 0;
 }
@@ -36,60 +37,30 @@ nav ul li a:hover:not(.active) {
 	background-color: #660033;
 }
 
-/* forma css */
-form {
-    display: block;
-   /* margin: auto 0;*/
+#vremenski {
+    margin: 10px 0px;
 }
 
-#name, #email, #poruka, #brojTel, #naslov, #opis, #kodDrzave, textarea {
-    width: 80%;
-    padding: 2% 2%;
-    margin: 8px 0;
-    display: inline-block;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.vrijeme {
+    visibility: hidden;
+}
+
+/* article css */
+article {
+    display: block;
+    padding: 15px 0px 25px;
+    /*border-top: 1px solid #e8e8e8;*/
+    width: 100%;
+    height: 100%;
+    margin-top: 2%;
     overflow: hidden;
-    /*margin-right: auto;
-    margin-left: auto;*/
 }
 
-label, #drzava {
-    color: white;
-    text-transform: uppercase;
-    display: block;
-    margin-top: 2%;
-}
-
-#kontakt-forma {
-    border-radius: 25px;
-    border: 3px solid #333;
-    display: block;
-    padding: 2%;
-    margin-top: 2%;
-    background-color: #660033;
-    width: 70%;
-}
-
-#drzava, #drzava1 ,#drzava2, #drzava3 {
-    /*float: left;*/
-    display: inline;
-}
-
-input[type=submit] {
-    width: 84%;
-    background-color: #33001a;
-    color: white;
-    padding: 14px 20px;
-    font-size: 20px;
-    margin: 8px 0;
-    border: none;
-    text-transform: uppercase;
-    cursor: pointer;
-}
-
-input[type=submit]:hover {
-    background-color: #1a000d;
+img {
+    float: left;
+    width: 250px;
+    height: 190px;
+    padding: 2px 20px;
 }
 
 .wrap{
@@ -104,7 +75,6 @@ height:120px;
 .wrap:hover ~ body{
 	background:green;
 }
-
 
 .pad {
     position: relative;
@@ -138,14 +108,14 @@ height:120px;
     background:#660033;
     width: 26px; 
     height:36px;
-    border-radius:70px/100px;
-    border: 3px solid black;
-    /**/
+    border-radius:70px/100px;/**/
+
     background-color: #660033; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(-45deg, #660033, #84325b); /* For Firefox 3.6 to 15 */
     background: linear-gradient(-45deg, #660033, #84325b); /* Standard syntax */
+    border: 3px solid black;
     transform: rotate(-15deg);
 }
 .toe-3 {
@@ -156,14 +126,13 @@ height:120px;
     width: 26px; 
     height: 36px;
     border-radius:70px/100px;
-    border: 3px solid black;
     /**/
-
     background-color: #660033; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(-45deg, #660033, #84325b); /* For Firefox 3.6 to 15 */
     background: linear-gradient(-45deg, #660033, #84325b); /* Standard syntax */
+    border: 3px solid black;
     transform: rotate(15deg);
 }
 .toe-4 {
@@ -173,9 +142,7 @@ height:120px;
     background:#660033;
     width: 26px; 
     height: 36px;
-    border-radius:70px/100px;
-    /**/
-
+    border-radius:70px/100px;/**/
     background-color: #660033; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(-45deg, #660033, #84325b); /* For Safari 5.1 to 6.0 */
     background: -o-linear-gradient(-45deg, #660033, #84325b); /* For Opera 11.1 to 12.0 */
@@ -187,4 +154,54 @@ height:120px;
 
 header h1{
     text-align: center;
+}
+
+
+#kontakt-forma {
+    border-radius: 25px;
+    border: 3px solid #333;
+    display: block;
+    padding: 2%;
+    margin-top: 2%;
+    background-color: #660033;
+    width: 70%;
+}
+
+#username, #password {
+    width: 80%;
+    padding: 2% 2%;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+
+}
+
+form {
+    display: block;
+   /* margin: auto 0;*/
+}
+
+label {
+    color: white;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 2%;
+}
+
+input[type=submit]:hover {
+    background-color: #1a000d;
+}
+
+input[type=submit] {
+    width: 84%;
+    background-color: #33001a;
+    color: white;
+    padding: 14px 20px;
+    font-size: 20px;
+    margin: 8px 0;
+    border: none;
+    text-transform: uppercase;
+    cursor: pointer;
 }

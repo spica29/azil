@@ -1,7 +1,7 @@
 <?php
 	session_start();
 	$msg = '';
-	//username = admin
+	//$username = "";
 	//password = pw
 
 	//handle_csv("users.csv");
@@ -16,7 +16,7 @@
 		$password = $_POST['password'];
 
 		if(handle_csv('files/users.csv', $username, $password) == true){
-			//$_SESSION['login'] = true;
+			$_SESSION['login'] = true;
 			$_SESSION['username'] = $username;
 			$msg = 'You have entered valid user name and password';
 		}
