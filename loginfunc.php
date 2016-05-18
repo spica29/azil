@@ -7,8 +7,7 @@
 	//handle_csv("users.csv");
 	if(isset($_SESSION['username']))
 	{
-		//provjera da li postoji sesija
-		debug_to_console("Prijavljen je username: " . $_SESSION['username']);
+		debug_to_console("Prijavljen korisnik: " . $_SESSION['username']); 
 	}
 	else if (isset($_POST['login'])) {
 

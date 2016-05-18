@@ -3,7 +3,7 @@
 	<meta charset="UTF-8">
 	<title>Azil za životinje</title>
 	<link rel="stylesheet" type="text/css" href="css/contact.css">
-	<script type="text/javascript" src="js/contact.js"></script>
+	<script type="text/javascript" src="js/dodavanjenovosti.js"></script>
 </head>
 <body>
 	<!-- login -->
@@ -33,17 +33,17 @@
 
 	<form id="kontakt-forma" method="POST" action="dodavanjenovosti.php">
 		<label for="naslov">Naslov vijesti: </label>
-		<input type="text" name="naslov" id="naslov" required> <!--onkeyup="validirajIme(this)" required>-->
+		<input type="text" name="naslov" id="naslov" onkeyup="validirajNaslov(this)" required>
 		<br>
 		<label for="opis">Tekst vijesti: </label>
-		<input type="text" name="opis" id="opis" required> <!-- onkeyup="validirajIme(this)" -->
+		<input type="text" name="opis" id="opis" onkeyup="validirajOpis(this)" required>
 		<br>
 		<!-- zasad nema unos slike jer se ne moze drzati u csv-u -->
 		<label for="kodDrzave">Dvoslovni kod drzave: </label>
-		<input type="text" name="kodDrzave" id="kodDrzave" required> <!-- onkeyup="validirajIme(this)" required>-->
+		<input type="text" name="kodDrzave" id="kodDrzave" onkeyup="validirajDrzavu(this)" required>
 		<br>
 		<label for="brojTel">Broj telefona (sa pozivnim): </label>
-		<input type="tel" name="brojTel" id="brojTel" required> <!-- onkeyup="validirajTel(this)" required>-->
+		<input type="tel" name="brojTel" id="brojTel" onkeyup="validirajKod(this)" required>
 		<br>
 		<input type="submit" name="dodajNovost" value="Pošalji">
 	</form>

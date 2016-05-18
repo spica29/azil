@@ -7,9 +7,15 @@
 <body>
 	<!-- login -->
 	<?php 
+
 		include 'loginfunc.php';
+		if(isset($_SESSION['username']))
+		{
+			$page = 'login';
+			header("Location: logout.php");
+		} 
 		$page = 'login';
-		include 'header.php';
+		include 'header.php';	
 	?>
 
 	<section>
@@ -24,7 +30,7 @@
 		</form>
 	</section>
 
-	Click here to clean <a href = "logout.php" tite = "Logout">Session.
+	<!--Click here to clean <a href = "logout.php" tite = "Logout">Session.-->
 
 	<footer>
 	</footer>
