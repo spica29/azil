@@ -25,18 +25,9 @@
 			$vrijeme = date("H:i:s");
 
 			$redovi = file('files/novosti.csv');
-			$i = 0;
-			$sadrzaj = "";
-			foreach ($redovi as $red) {
-				if($brojac == $red)
-				{
-					$red = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . ',' . $vrijeme . '\n';
-				}
-				$sadrzaj = $sadrzaj . $red;
-				$brojac++;
-			}
+			$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . ',' . $vrijeme . "\n";
 
-			file_put_contents('files/novosti.csv', $sadrzaj);
+			file_put_contents('files/novosti.csv', $sadrzaj, FILE_APPEND);
 		}
 	?>
 
