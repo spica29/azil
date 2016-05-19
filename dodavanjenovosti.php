@@ -17,18 +17,24 @@
 		include 'header.php';
 
 		if(isset($_POST['dodajNovost'])) {
-			$naslov = htmlEntities($_POST['naslov'], ENT_QUOTES);
-			$opis = htmlEntities($_POST['opis'], ENT_QUOTES);
-			$kodDrzave = htmlEntities($_POST['kodDrzave'], ENT_QUOTES);
-			$brojTel = htmlEntities($_POST['brojTel'], ENT_QUOTES);
-			$datum = date("d.m.Y");
-			$vrijeme = date("H:i:s");
+			$err = "";
+			/*if (empty($_POST["naslov"]) || empty($_POST["opis"]) || empty($_POST["kodDrzave"]) || empty($_POST["brTel"])){
+				$err = "prazna polja";
+			}
+			else {*/
+				$naslov = htmlEntities($_POST['naslov'], ENT_QUOTES);
+				$opis = htmlEntities($_POST['opis'], ENT_QUOTES);
+				$kodDrzave = htmlEntities($_POST['kodDrzave'], ENT_QUOTES);
+				$brojTel = htmlEntities($_POST['brojTel'], ENT_QUOTES);
+				$datum = date("Y/m/d H:i:s");
+				
+				$redovi = file('files/novosti.csv');
+				$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . "\n";
 
-			$redovi = file('files/novosti.csv');
-			$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . ',' . $vrijeme . "\n";
-
-			file_put_contents('files/novosti.csv', $sadrzaj, FILE_APPEND);
-		}
+				file_put_contents('files/novosti.csv', $sadrzaj, FILE_APPEND);
+			//} 
+			if($err != "") echo $err;
+		}	
 	?>
 
 	<form id="kontakt-forma" method="POST" action="dodavanjenovosti.php">
