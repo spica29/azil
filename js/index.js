@@ -1,5 +1,5 @@
 window.onload = function(){
-	//ucitaj();
+	ucitaj();
 	vrijeme();
 }
 
@@ -39,6 +39,8 @@ function vrijeme() {
 			else tekst += ":" + date.getSeconds();
 		}
 		idOpisVremena[i].innerHTML = tekst;
+		podaci_json.opisVremena = tekst;
+
 	};
 }
 
@@ -109,8 +111,40 @@ function dnevni(){
 		while(section1[i].firstChild)
 			section1[i].removeChild(section1[i].firstChild);
 	}
+	//ucitavanje svih
+	/*vrijeme();
 
-	//
+	vijesti = document.getElementsByTagName("article");
+
+	//brisanje articles
+	for (var i = 0; i <= vijesti.length; i++) {
+		//console.log(vijesti[i].childNodes);
+		var date = new Date(vijesti[i].childNodes[3].innerHTML);
+		console.log(date);
+		var current = new Date();
+		if(date.getDate() != current.getDate()){
+			//brisanje svih koje nisu danasnje
+			while(vijesti[i].firstChild)
+				vijesti[i].removeChild(vijesti[i].firstChild);
+			//vijesti[i].style.visibility = "hidden";
+		}
+	};
+*/
+	//ucitavanje novih
+
+	var section = document.getElementById("section");
+	var h2 = document.createElement("h2");
+	h2.innerHTML = "Naslovna";
+	section.appendChild(h2);
+	
+	for(var i = 0; i < podaci_json.length; i++){
+		var currentDate = new Date();
+		var date = new Date(podaci_json[i].vrijeme);
+		if(date.getDate() == currentDate.getDate() && date.getMonth() == currentDate.getMonth() && date.getFullYear() == currentDate.getFullYear()){
+			ucitajPojedinacno(podaci_json[i], section);
+		}
+	}
+
 	vrijeme();
 
 	return false;
@@ -126,7 +160,7 @@ function mjesecni(){
 	}
 	//ucitavanje novih
 
-	/*var section = document.getElementById("section");
+	var section = document.getElementById("section");
 	var h2 = document.createElement("h2");
 	h2.innerHTML = "Naslovna";
 	section.appendChild(h2);
@@ -137,7 +171,7 @@ function mjesecni(){
 		if(date.getMonth() == currentDate.getMonth() && date.getFullYear() == currentDate.getFullYear()){
 			ucitajPojedinacno(podaci_json[i], section);
 		}
-	}*/
+	}
 
 	vrijeme();
 	return false;
@@ -152,7 +186,7 @@ function sve(){
 	}
 	//ucitavanje svih
 
-	/*var section = document.getElementById("section");
+	var section = document.getElementById("section");
 	var h2 = document.createElement("h2");
 	h2.innerHTML = "Naslovna";
 	section.appendChild(h2);
@@ -161,12 +195,11 @@ function sve(){
 		var currentDate = new Date();
 		var date = new Date(podaci_json[i].vrijeme);
 		ucitajPojedinacno(podaci_json[i], section);
-	}*/
+	}
 
 	vrijeme();
 	return false;
 }
-
 function sedmicni(){
 	//brisanje 
 	var section = document.getElementsByTagName("section");
@@ -176,8 +209,8 @@ function sedmicni(){
 	}
 
 	//ucitavanje novih
-	ucitaj();
-	/*var section = document.getElementById("section");
+
+	var section = document.getElementById("section");
 	var h2 = document.createElement("h2");
 	h2.innerHTML = "Naslovna";
 	section.appendChild(h2);
@@ -194,21 +227,53 @@ function sedmicni(){
 		if(currentDanUSedm - DanUSedm < 7 && currentDanUSedm - DanUSedm >= 0 && razlikaUDanima < 7){
 			ucitajPojedinacno(podaci_json[i], section);
 		}
-	}*/
+	}
 
 	vrijeme();
 	return false;
 }
 
 function ucitaj(){
-	var ajax = new XMLHttpRequest();
-	ajax.onreadystatechange = function() {
-   		if (ajax.readyState == 4 && ajax.status == 200){
-   			
-   		}    	
-    }
-	ajax.open("GET", "ucitajVijesti.php");
-	ajax.send();
+	var section = document.getElementById("section");
+	var h2 = document.createElement("h2");
+	h2.innerHTML = "Naslovna";
+	section.appendChild(h2);
+	for(var i = 0; i < podaci_json.length; i++){
+		//pravljenje article
+		var article = document.createElement("article");
+		article.className = "vijest";
+		//dodavanje slike
+		var img = document.createElement("img");
+		img.src = podaci_json[i].slika;
+		img.alt = podaci_json[i].alt;
+		article.appendChild(img);
+
+		//dodavanje naslova
+		var h3 = document.createElement("h3");
+		h3.innerHTML = podaci_json[i].naslov;
+		article.appendChild(h3);
+
+		var opisVremena = document.createElement("div");
+		opisVremena.className = "opisVremena";
+		article.appendChild(opisVremena);
+
+		//dodavanje vremena
+		var vrijemeObjave = document.createElement("div");
+		vrijemeObjave.className = "vrijeme";
+		//console.log(podaci_json[i].vrijeme)
+		var vr = new Date(podaci_json[i].vrijeme);
+		//console.log(vr);
+		vrijemeObjave.innerHTML = podaci_json[i].vrijeme;
+		article.appendChild(vrijemeObjave);
+
+		//dodavanje teksta
+		var p = document.createElement("p");
+		p.innerHTML = podaci_json[i].tekst;
+		article.appendChild(p);
+
+		//zatvaranje article
+		section.appendChild(article);		
+	}
 }
 
 function ucitajPojedinacno(podatak, section){
@@ -252,21 +317,21 @@ var podaci_json = [
 	{
 		"slika": "images/dog-and-puppy-adoption.jpg",
 		"naslov": "Usvajanje",
-		"vrijeme": "2016/05/19 11:00:05",
+		"vrijeme": "2016/03/29 03:04:05",
 		"opisVremena": "",
 		"alt": "Adopt me",
 		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
 	}, {
 		"slika": "images/dog-and-puppy-adoption.jpg",
 		"naslov": "Usvajanje",
-		"vrijeme": "2016/04/20 03:04:05",
+		"vrijeme": "2016/03/19 03:04:05",
 		"opisVremena": "",
 		"alt": "Adopt me",
 		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
 	}, {
 		"slika": "images/dog-and-puppy-adoption.jpg",
 		"naslov": "Usvajanje",
-		"vrijeme": "2016/05/01 03:04:05",
+		"vrijeme": "2016/04/01 03:04:05",
 		"opisVremena": "",
 		"alt": "Adopt me",
 		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."

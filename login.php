@@ -7,6 +7,7 @@
 <body>
 	<!-- login -->
 	<?php 
+
 		include 'loginfunc.php';
 		if(isset($_SESSION['username']))
 		{
