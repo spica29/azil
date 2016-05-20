@@ -1,6 +1,31 @@
 window.onload = function(){
-	//ucitaj();
-	vrijeme();
+	ucitaj("sve");
+	//vrijeme();
+}
+
+function sortirajVremenski(){
+	var listaNovosti = document.getElementsByClassName('vijest');
+	//if(vremenski.checked){
+		listaNovosti = Array.prototype.slice.call(listaNovosti, 0);
+		listaNovosti.sort(function(a, b){
+			//console.log(a.childNodes[7].innerHTML + " drugi " + b.childNodes[7].innerHTML);
+			var aDate = new Date(a.childNodes[7].innerHTML);
+			var bDate = new Date(b.childNodes[7].innerHTML);
+			return (aDate < bDate);
+		});
+
+		var section1 = document.getElementsByTagName("section");
+		for(var i = 0; i < section1.length; i++){
+			while(section1[i].firstChild)
+				section1[i].removeChild(section1[i].firstChild);
+		}
+
+		var section = document.getElementById('section');
+		for(var i = 0; i < listaNovosti.length; i++){
+			section.appendChild(listaNovosti[i]);
+		}
+		return listaNovosti;
+	//}
 }
 
 function vrijeme() {
@@ -110,10 +135,7 @@ function dnevni(){
 			section1[i].removeChild(section1[i].firstChild);
 	}
 
-	//
-	vrijeme();
-
-	return false;
+	ucitaj("dnevni");
 }
 
 
@@ -125,22 +147,7 @@ function mjesecni(){
 			section[i].removeChild(section[i].firstChild);
 	}
 	//ucitavanje novih
-
-	/*var section = document.getElementById("section");
-	var h2 = document.createElement("h2");
-	h2.innerHTML = "Naslovna";
-	section.appendChild(h2);
-	
-	for(var i = 0; i < podaci_json.length; i++){
-		var currentDate = new Date();
-		var date = new Date(podaci_json[i].vrijeme);
-		if(date.getMonth() == currentDate.getMonth() && date.getFullYear() == currentDate.getFullYear()){
-			ucitajPojedinacno(podaci_json[i], section);
-		}
-	}*/
-
-	vrijeme();
-	return false;
+	ucitaj("mjesecni");
 }
 
 function sve(){
@@ -152,18 +159,9 @@ function sve(){
 	}
 	//ucitavanje svih
 
-	/*var section = document.getElementById("section");
-	var h2 = document.createElement("h2");
-	h2.innerHTML = "Naslovna";
-	section.appendChild(h2);
-	
-	for(var i = 0; i < podaci_json.length; i++){
-		var currentDate = new Date();
-		var date = new Date(podaci_json[i].vrijeme);
-		ucitajPojedinacno(podaci_json[i], section);
-	}*/
+	ucitaj("sve");
 
-	vrijeme();
+	//vrijeme();
 	return false;
 }
 
@@ -176,38 +174,20 @@ function sedmicni(){
 	}
 
 	//ucitavanje novih
-	ucitaj();
-	/*var section = document.getElementById("section");
-	var h2 = document.createElement("h2");
-	h2.innerHTML = "Naslovna";
-	section.appendChild(h2);
-	
-	for(var i = 0; i < podaci_json.length; i++){
-		var currentDate = new Date();
-		var date = new Date(podaci_json[i].vrijeme);
-		var razlikaUDanima = Math.floor((currentDate - date) / (1000 * 3600 * 24));
-		console.log("razlika " + razlikaUDanima);
-		var currentDanUSedm = currentDate.getDay() - 1;
-		var DanUSedm = date.getDay() - 1;
-		if(DanUSedm < 0) DanUSedm = 7;
-		if(currentDanUSedm < 0) currentDanUSedm = 7;
-		if(currentDanUSedm - DanUSedm < 7 && currentDanUSedm - DanUSedm >= 0 && razlikaUDanima < 7){
-			ucitajPojedinacno(podaci_json[i], section);
-		}
-	}*/
-
-	vrijeme();
-	return false;
+	ucitaj("sedmicni");
 }
 
-function ucitaj(){
+function ucitaj(varVrijeme){
 	var ajax = new XMLHttpRequest();
 	ajax.onreadystatechange = function() {
    		if (ajax.readyState == 4 && ajax.status == 200){
-   			
+   			document.getElementById('section').innerHTML = ajax.responseText;
+   			vrijeme();
+   			return false;
    		}    	
+
     }
-	ajax.open("GET", "ucitajVijesti.php");
+	ajax.open("GET", "ucitajVijesti.php?vrijeme=" + varVrijeme);
 	ajax.send();
 }
 

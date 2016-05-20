@@ -18,14 +18,14 @@ nav ul {
 
 nav ul li {
 	float: left;
-    border-right:1px solid #bbb;
+    border-right: 1px solid #bbb;
 }
 
 nav ul li a {
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 40px;
+    padding: 14px 30px;
     text-decoration: none;
 }
 
@@ -64,12 +64,12 @@ img {
 }
 
 .wrap{
-position:absolute;
-background:transparent;
-left:90px; 
-top:0px;
-width:150px;
-height:120px;
+    position:absolute;
+    background:transparent;
+    left:90px; 
+    top:0px;
+    width:150px;
+    height:120px;
 }
 
 .wrap:hover ~ body{
