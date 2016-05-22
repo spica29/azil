@@ -1,8 +1,8 @@
 <?php
 	//citanje csv-a
-	$file = file("files/novosti.csv");
+	$file = file("podaci/novosti.csv");
 	$vrijeme = $_REQUEST['vrijeme'];
-	debug_to_console($vrijeme);
+	//debug_to_console($vrijeme);
 	$currentDate = date("Y/m/d H:i:s");
 	$year = date('y', strtotime($currentDate));
 	$month = date('m', strtotime($currentDate));
@@ -10,6 +10,8 @@
 	$dayOfTheWeek = date('N', strtotime($currentDate));
 	foreach ($file as $r) {
 		$c = explode(',', $r);
+		//$c[4] = date($c[4], strtotime('+2 hours'));
+		//print "datum" . $c[4];
 		$cYear = date('y', strtotime($c[4]));
 		$cMonth = date('m', strtotime($c[4]));
 		$cDay = date('d', strtotime($c[4]));
