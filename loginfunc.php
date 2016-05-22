@@ -14,7 +14,7 @@
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 
-		if(handle_csv('podaci/users.csv', $username, $password) == true){
+		if(handle_csv('files/users.csv', $username, $password) == true){
 			$_SESSION['login'] = true;
 			$_SESSION['username'] = $username;
 			$msg = 'You have entered valid user name and password';

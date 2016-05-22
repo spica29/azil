@@ -10,6 +10,16 @@ function validirajOpis(obj){
 	else obj.style.backgroundColor = "#ff3333";
 }
 
+function validirajPolja(){
+   obj = document.getElementById("kodDrzave");
+   obj2 = document.getElementById("brojTel");
+   if(obj.style.backgroundColor == "rgb(255, 51, 51)" || obj2.style.backgroundColor == "rgb(255, 51, 51)"){
+      alert('Ne poklapa se kod drzave se pozivnim, unesite ponovo podatke');
+      return false;
+   }
+   else return true;
+ }
+
 function validirajDrzavu(obj){
 	var obj2 = document.getElementById("brojTel")
 	var ajax = new XMLHttpRequest();
@@ -33,22 +43,12 @@ function validirajDrzavu(obj){
    				obj.style.backgroundColor = "#ff3333";
    				obj2.style.backgroundColor = "#ff3333";
    			}
-            //validirajPolja();
    		}    	
     }
 	ajax.open("GET", "https://restcountries.eu/rest/v1/alpha?codes=" + obj.value, true);
 	ajax.send();
 }
 
-function validirajPolja(){
-   obj = document.getElementById("kodDrzave");
-   obj2 = document.getElementById("brojTel");
-   if(obj.style.backgroundColor == "rgb(255, 51, 51)" || obj2.style.backgroundColor == "rgb(255, 51, 51)"){
-      alert('Ne poklapa se kod drzave se pozivnim, unesite ponovo podatke');
-      return false;
-   }
-   else return true;
-}
 
 function validirajKod(obj2){
 	var obj = document.getElementById("kodDrzave")
@@ -73,7 +73,6 @@ function validirajKod(obj2){
    				obj.style.backgroundColor = "#ff3333";
    				obj2.style.backgroundColor = "#ff3333";
    			}
-            //validirajPolja();
    		}    	
     }
 	ajax.open("GET", "https://restcountries.eu/rest/v1/alpha?codes=" + obj.value, true);
