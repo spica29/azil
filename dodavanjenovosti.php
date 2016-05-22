@@ -18,23 +18,22 @@
 
 		if(isset($_POST['dodajNovost'])) {
 			$err = "";
-			
+
 			$naslov = htmlEntities($_POST['naslov'], ENT_QUOTES);
-			$opis = htmlEntities($_POST['opis'], ENT_QUOTES);
-			$kodDrzave = htmlEntities($_POST['kodDrzave'], ENT_QUOTES);
-			$brojTel = htmlEntities($_POST['brojTel'], ENT_QUOTES);
-			$datum = date("Y/m/d H:i:s");
-			date_default_timezone_set('Europe/Sarajevo');
-			$urlSlike = htmlEntities($_POST['slika'], ENT_QUOTES);
+ 			$opis = htmlEntities($_POST['opis'], ENT_QUOTES);
+ 			$kodDrzave = htmlEntities($_POST['kodDrzave'], ENT_QUOTES);
+ 			$brojTel = htmlEntities($_POST['brojTel'], ENT_QUOTES);
+ 			$datum = date("Y/m/d H:i:s");
+ 			$urlSlike = htmlEntities($_POST['slika'], ENT_QUOTES);
 
 			if ($naslov == "" || $opis == "" || $kodDrzave == "" || $brojTel == ""){
-				$err = "prazna polja";
-			}
+  				$err = "prazna polja";
+  			}
 			else {
-				$redovi = file('podaci/novosti.csv');
+				$redovi = file('files/novosti.csv');
 				$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . "," . $urlSlike . "\n";
 
-				file_put_contents('podaci/novosti.csv', $sadrzaj, FILE_APPEND);
+				file_put_contents('files/novosti.csv', $sadrzaj, FILE_APPEND);
 			} 
 			if($err != "") echo $err;
 		}	
@@ -48,10 +47,10 @@
 		<input type="text" name="slika" id="slika" required>
 		<br>
 		<label for="kodDrzave">Dvoslovni kod drzave: </label>
-		<input type="text" name="kodDrzave" id="kodDrzave" onkeyup="validirajDrzavu(this);" required>
+		<input type="text" name="kodDrzave" id="kodDrzave" onkeyup="validirajDrzavu(this)" required>
 		<br>
 		<label for="brojTel">Broj telefona (sa pozivnim): </label>
-		<input type="tel" name="brojTel" id="brojTel" onkeyup="validirajKod(this);" required>
+		<input type="tel" name="brojTel" id="brojTel" onkeyup="validirajKod(this)" required>
 		<br>
 		<label for="opis">Tekst vijesti: </label>
 		<textarea name="opis" id="opis" cols="60" rows="10" required></textarea>
