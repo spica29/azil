@@ -1,5 +1,6 @@
 window.onload = function(){
 	ucitaj("sve");
+	sortirajVremenski();
 	//vrijeme();
 }
 
@@ -12,6 +13,34 @@ function sortirajVremenski(){
 			var aDate = new Date(a.childNodes[7].innerHTML);
 			var bDate = new Date(b.childNodes[7].innerHTML);
 			return (aDate < bDate);
+		});
+
+		var section1 = document.getElementsByTagName("section");
+		for(var i = 0; i < section1.length; i++){
+			while(section1[i].firstChild)
+				section1[i].removeChild(section1[i].firstChild);
+		}
+
+		var section = document.getElementById('section');
+		for(var i = 0; i < listaNovosti.length; i++){
+			section.appendChild(listaNovosti[i]);
+		}
+		return listaNovosti;
+	//}
+}
+
+function sortirajAbecedno(){
+	var listaNovosti = document.getElementsByClassName('vijest');
+	//if(vremenski.checked){
+		listaNovosti = Array.prototype.slice.call(listaNovosti, 0);
+		listaNovosti.sort(function(a, b){
+			//console.log(a.childNodes[7].innerHTML + " drugi " + b.childNodes[7].innerHTML);
+			var aNaslov = a.childNodes[3].innerHTML;
+			aNaslov = aNaslov.toLowerCase();
+			var bNaslov = b.childNodes[3].innerHTML;
+			bNaslov = bNaslov.toLowerCase();
+			console.log("anas: " + aNaslov + " bnas " + bNaslov);
+			return (aNaslov > bNaslov);
 		});
 
 		var section1 = document.getElementsByTagName("section");
@@ -183,6 +212,7 @@ function ucitaj(varVrijeme){
    		if (ajax.readyState == 4 && ajax.status == 200){
    			document.getElementById('section').innerHTML = ajax.responseText;
    			vrijeme();
+   			sortirajVremenski();
    			return false;
    		}    	
 

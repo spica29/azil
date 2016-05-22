@@ -42,7 +42,7 @@ form {
    /* margin: auto 0;*/
 }
 
-#name, #email, #poruka, #brojTel, #naslov, #opis, #kodDrzave, textarea {
+#name, #email, #poruka, #brojTel, #naslov, #opis, #kodDrzave, #slika, textarea {
     width: 80%;
     padding: 2% 2%;
     margin: 8px 0;

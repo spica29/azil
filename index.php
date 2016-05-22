@@ -25,13 +25,8 @@
 			</li>
 		</ul>
 	</nav>
-
-	<input type="submit" onclick="sortirajVremenski();"> 
-
-	<select>
-	  <option name="vremenski" value="vremenski" onclick="sortirajVremenski();">Vremenski</option>
-	  <option name="abecedno" value="abecedno" onclick="sortirajAbecedno">Abecedno</option>
-	</select>
+	<input type="submit" name="vremenski" value="vremenski" onclick="sortirajVremenski();">
+	<input type="submit" name="abecedno" value="abecedno" onclick="sortirajAbecedno();">
 
 	<section id="section" >
 		

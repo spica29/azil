@@ -27,9 +27,10 @@
 				$kodDrzave = htmlEntities($_POST['kodDrzave'], ENT_QUOTES);
 				$brojTel = htmlEntities($_POST['brojTel'], ENT_QUOTES);
 				$datum = date("Y/m/d H:i:s");
-				
+				$urlSlike = htmlEntities($_POST['slika'], ENT_QUOTES);
+
 				$redovi = file('files/novosti.csv');
-				$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . "\n";
+				$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . "," . $urlSlike . "\n";
 
 				file_put_contents('files/novosti.csv', $sadrzaj, FILE_APPEND);
 			//} 
@@ -41,15 +42,17 @@
 		<label for="naslov">Naslov vijesti: </label>
 		<input type="text" name="naslov" id="naslov" onkeyup="validirajNaslov(this)" required>
 		<br>
-		<label for="opis">Tekst vijesti: </label>
-		<input type="text" name="opis" id="opis" onkeyup="validirajOpis(this)" required>
+		<label for="slika">Url slike: </label>
+		<input type="text" name="slika" id="slika" required>
 		<br>
-		<!-- zasad nema unos slike jer se ne moze drzati u csv-u -->
 		<label for="kodDrzave">Dvoslovni kod drzave: </label>
 		<input type="text" name="kodDrzave" id="kodDrzave" onkeyup="validirajDrzavu(this)" required>
 		<br>
 		<label for="brojTel">Broj telefona (sa pozivnim): </label>
 		<input type="tel" name="brojTel" id="brojTel" onkeyup="validirajKod(this)" required>
+		<br>
+		<label for="opis">Tekst vijesti: </label>
+		<textarea name="opis" id="opis" cols="60" rows="10" required></textarea>
 		<br>
 		<input type="submit" name="dodajNovost" value="Pošalji">
 	</form>

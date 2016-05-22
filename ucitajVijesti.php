@@ -31,7 +31,7 @@
 
 	function ispisiVijest($c){
 		print "<article class='vijest'>
-				<img src='images/dog-and-puppy-adoption.jpg' alt='Adopt me'/>
+				<img src='" . $c[5] . "' alt='slika'/>
 				<h3>";
 			print $c[0] . "</h3>
 			<div class='opisVremena'></div>
