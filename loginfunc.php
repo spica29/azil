@@ -14,41 +14,30 @@
 		$username = $_POST['username'];
 		$password = $_POST['password'];
 
-		if(handle_csv('files/users.csv', $username, $password) == true){
+		$veza = new PDO('mysql:host=localhost;dbname=wtazil;charset=utf8', 'root', 'root');
+		$veza->exec("set names utf8");
+
+		$upit = $veza->prepare("SELECT * FROM korisnik WHERE username= :username && password= md5(:password)");
+		$upit->bindValue(':username', $username);
+		//treba hesirati
+		$upit->bindValue(':password', $password);
+		$upit->execute();
+		$nesto = NULL;
+		
+		if($upit->rowCount() > 0){
+			$nesto = $upit->fetch(PDO::FETCH_LAZY);
+			debug_to_console("Nesto " . $nesto["username"]);
+
 			$_SESSION['login'] = true;
 			$_SESSION['username'] = $username;
-			$msg = 'You have entered valid user name and password';
+			//$msg = 'Username: ' . $username . " password: " . $password;
 		}
-		else $msg = 'Wrong username or password';
-		debug_to_console($msg);
+		else debug_to_console("greska");
 	}
 	else {
 		$msg = 'Wrong username or password';
 		debug_to_console($msg);
 	}
-
-	function handle_csv($name){
-		$row = 1;
-		$username = $_POST['username'];
-		$password = $_POST['password'];
-		$password = md5($password);
-		$flag = false;
-		if (($handle = fopen($name, "r")) !== FALSE) {
-		    while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-		        $row++;
-		        $usr = $data[0];
-		        $pw = $data[1];
-		        //debug_to_console("USR ".$usr." PW" . $pw);
-		        //debug_to_console("USeR ".$username." PeW " . $password);
-
-		        if($usr == $username && $password == $pw) 
-		        	$flag = true;
-		    } 
-		    fclose($handle);
-		}
-		return $flag;
-	}
-
 
 	function debug_to_console( $data ) {
 	    if ( is_array( $data ) )
@@ -58,5 +47,4 @@
 
 	    echo $output;
 	}	
-	//$file = $_ENV['OPENSHIFT_DATA_DIR'].'/../'
 ?>
