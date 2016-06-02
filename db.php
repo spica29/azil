@@ -48,6 +48,27 @@
 		}
 	}
 
+	function nadjiAutoraVijesti($idVijesti){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT autor_id FROM novost WHERE id=:id");
+		$upit->bindValue(':id', $idVijesti, PDO::PARAM_INT);
+		$upit->execute();
+		return $upit->fetch(PDO::FETCH_LAZY)['autor_id'];
+	}
+
+	function nadjiAutoraID($id){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * FROM autor WHERE id = :id");
+		$upit->bindValue(':id', $id, PDO::PARAM_INT);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit->fetch();
+		}
+	}
+
 	function unosVijesti($naslov, $opis, $vrijeme, $urlSlike, $dozvoljeniKomentari){
 		$veza = konekcija();
 		//nalazenje id autora

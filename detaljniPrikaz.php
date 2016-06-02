@@ -15,13 +15,18 @@
 
 		$idVijesti = $_REQUEST["id"];
 		$vijest = nadjiVijest($idVijesti);
-		//$vijest = $vijest->fetch(PDO::FETCH_LAZY);
+
+		$autorID = nadjiAutoraVijesti($idVijesti);
+		$autor = nadjiAutoraID($autorID);
+
 		print "<article class='vijest'>
 				<img src='" . $vijest['urlslike'] . "' alt='slika'/>
 				<h3>";
 		print $vijest['naslov'] . "</h3>
 		<div class='opisVremena'></div>
 		<div class='vrijeme'>" . $vijest['vrijeme'] . "</div>";
+		//prikaz autora
+		print "<h4 id='autor'>Autor: " . $autor['naziv'] . "</h4>";
 		print "<p>" . $vijest['opis'];
 		print "</p></article>";
 	?>
