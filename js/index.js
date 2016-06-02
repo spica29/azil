@@ -39,7 +39,7 @@ function sortirajAbecedno(){
 			aNaslov = aNaslov.toLowerCase();
 			var bNaslov = b.childNodes[3].innerHTML;
 			bNaslov = bNaslov.toLowerCase();
-			console.log("anas: " + aNaslov + " bnas " + bNaslov);
+			//console.log("anas: " + aNaslov + " bnas " + bNaslov);
 			return (aNaslov > bNaslov);
 		});
 
@@ -256,92 +256,3 @@ function ucitajPojedinacno(podatak, section){
 
 	section.appendChild(article);
 }
-
-//podaci su testni za 2.4 i 3.4 naravno na dan testiranja treba promijeniti vrijednosti da bi dnevni prikaz radio
-var podaci_json = [
-	{
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/05/19 11:00:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/04/20 03:04:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/05/01 03:04:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/04/02 03:04:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/04/02 17:04:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/02/02 03:04:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/02/02 03:14:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}, {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/03/31 03:14:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}  , {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/03/25 03:14:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}  , {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/03/28 03:14:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}  , {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/03/27 03:14:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}  , {
-		"slika": "images/dog-and-puppy-adoption.jpg",
-		"naslov": "Usvajanje",
-		"vrijeme": "2016/04/03 03:14:05",
-		"opisVremena": "",
-		"alt": "Adopt me",
-		"tekst": "Budući vlasnici pasa, osim sa razmišljanjima o tome kako će se porodica organizovati u brizi i šetanju ljubimca, najčešće se suočavaju i sa dilemom da li će usvojiti štene ili odraslog psa. U poslednje vreme na društvenim mrežama i internet sajtovima pojavljuju se mnogobrojni tekstovi o prednostima usvajanja odraslih pasa, ali je prema rečima zaposlenih u gradskim azilima, presudan prvi kontakt usvojitelja i životinje."
-	}  
-]

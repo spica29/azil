@@ -24,16 +24,21 @@
  			$kodDrzave = htmlEntities($_POST['kodDrzave'], ENT_QUOTES);
  			$brojTel = htmlEntities($_POST['brojTel'], ENT_QUOTES);
  			$datum = date("Y/m/d H:i:s");
+ 			$datum = strval($datum);
  			$urlSlike = htmlEntities($_POST['slika'], ENT_QUOTES);
+ 			$selected_radio = $_POST['komentaridoz'];
+ 			$dozvoljeniKomentari;
+ 			if($selected_radio == "DA")
+ 				$dozvoljeniKomentari = 1;
+ 			else $dozvoljeniKomentari = 0;
 
 			if ($naslov == "" || $opis == "" || $kodDrzave == "" || $brojTel == ""){
   				$err = "prazna polja";
   			}
 			else {
-				$redovi = file('files/novosti.csv');
-				$sadrzaj = $naslov . ',' . $opis . ',' . $kodDrzave . ',' . $brojTel . ',' . $datum . "," . $urlSlike . "\n";
-
-				file_put_contents('files/novosti.csv', $sadrzaj, FILE_APPEND);
+				//unos u bazu
+				include 'db.php';
+				unosVijesti($naslov, $opis, $datum, $urlSlike, $dozvoljeniKomentari);
 			} 
 			if($err != "") echo $err;
 		}	
@@ -52,6 +57,10 @@
 		<label for="brojTel">Broj telefona (sa pozivnim): </label>
 		<input type="tel" name="brojTel" id="brojTel" onkeyup="validirajKod(this)" required>
 		<br>
+		<div id="drzava"> Komentarisanje dozvoljeno:
+			<input type="radio" id="drzava1" name="komentaridoz" value="DA" checked> DA
+			<input type="radio" id="drzava2" name="komentaridoz" value="NE"> NE
+		</div><br><br>
 		<label for="opis">Tekst vijesti: </label>
 		<textarea name="opis" id="opis" cols="60" rows="10" required></textarea>
 		<br>

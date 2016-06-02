@@ -11,18 +11,17 @@
 	}
 	else if (isset($_POST['login'])) {
 
-		$username = $_POST['username'];
-		$password = $_POST['password'];
+		$username = htmlEntities($_POST['username'], ENT_QUOTES);
+		$password = htmlEntities($_POST['password'], ENT_QUOTES);
 
-		$veza = new PDO('mysql:host=localhost;dbname=wtazil;charset=utf8', 'root', 'root');
-		$veza->exec("set names utf8");
+		include 'db.php';
+		login($username, $password);
 
-		$upit = $veza->prepare("SELECT * FROM korisnik WHERE username= :username && password= md5(:password)");
+		/*$upit = $veza->prepare("SELECT * FROM korisnik WHERE username= :username && password= md5(:password)");
 		$upit->bindValue(':username', $username);
 		//treba hesirati
 		$upit->bindValue(':password', $password);
 		$upit->execute();
-		$nesto = NULL;
 		
 		if($upit->rowCount() > 0){
 			$nesto = $upit->fetch(PDO::FETCH_LAZY);
@@ -32,7 +31,7 @@
 			$_SESSION['username'] = $username;
 			//$msg = 'Username: ' . $username . " password: " . $password;
 		}
-		else debug_to_console("greska");
+		else debug_to_console("greska");*/
 	}
 	else {
 		$msg = 'Wrong username or password';
