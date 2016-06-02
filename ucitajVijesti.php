@@ -16,8 +16,6 @@
 		$cDay = date('d', strtotime($vr));
 		$cDayOfTheWeek = date('N', strtotime($vr));
 		$razlikaUDanima = $day - $cDay;
-		
-		//debug_to_console("vrijeme: " . $vr . " godina: " . $cYear);
 			
 		if($year == $cYear && $month == $cMonth && $day == $cDay && $vrijeme == "dnevni")
 		{
@@ -34,13 +32,27 @@
 
 	function ispisiVijest($c){
 		print "<article class='vijest'>
-				<img src='" . $c['urlslike'] . "' alt='slika'/>
+				<a href='detaljniPrikaz.php?id=" . $c['id'] . "'><img src='" . $c['urlslike'] . "' alt='slika'/></a>
 				<h3>";
-			print $c['naslov'] . "</h3>
-			<div class='opisVremena'></div>
-			<div class='vrijeme'>" . $c['vrijeme'] . "</div>
-			<p>" . $c['opis'] . "</p>
-			</article>";
+		print $c['naslov'] . "</h3>
+		<div class='opisVremena'></div>
+		<div class='vrijeme'>" . $c['vrijeme'] . "</div>";
+
+		$opis = $c['opis'];
+		//racunanje pozicije od koje ce traziti space za skracivanje stringa
+		$vel = strlen($opis);
+		if($vel > 250) $vel = 250;
+		else $vel = 0;
+		//nalazenje pozicije
+		$pozicija = strpos($opis, " ", $vel);
+		//print "pozicija: " . $pozicija;
+		if(strlen($opis) > 250) {
+			$opis = substr($opis, 0, $pozicija);
+			print "<p>" . $opis . " .."; 
+		}
+		else 
+			print "<p>" . $c['opis'];
+		print "</p></article>";
 	}
 
 	function debug_to_console( $data ) {
