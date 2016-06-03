@@ -29,8 +29,6 @@
 		</form>
 	</section>
 
-	<!--Click here to clean <a href = "logout.php" tite = "Logout">Session.-->
-
 	<footer>
 	</footer>
 </body>

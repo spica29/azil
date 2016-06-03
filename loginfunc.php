@@ -16,22 +16,6 @@
 
 		include 'db.php';
 		login($username, $password);
-
-		/*$upit = $veza->prepare("SELECT * FROM korisnik WHERE username= :username && password= md5(:password)");
-		$upit->bindValue(':username', $username);
-		//treba hesirati
-		$upit->bindValue(':password', $password);
-		$upit->execute();
-		
-		if($upit->rowCount() > 0){
-			$nesto = $upit->fetch(PDO::FETCH_LAZY);
-			debug_to_console("Nesto " . $nesto["username"]);
-
-			$_SESSION['login'] = true;
-			$_SESSION['username'] = $username;
-			//$msg = 'Username: ' . $username . " password: " . $password;
-		}
-		else debug_to_console("greska");*/
 	}
 	else {
 		$msg = 'Wrong username or password';

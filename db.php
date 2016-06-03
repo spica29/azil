@@ -105,4 +105,17 @@
 			return $upit->fetch();
 		}
 	}
+
+	function nadjiNovostiAutora($id){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * FROM novost WHERE autor_id=:id");
+		$upit->bindValue(':id', $id, PDO::PARAM_INT);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit;
+		}
+	}
 ?>

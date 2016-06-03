@@ -1,7 +1,5 @@
 window.onload = function(){
-	ucitaj("sve");
-	sortirajVremenski();
-	//vrijeme();
+	//ucitaj("sve");
 }
 
 function sortirajVremenski(){
@@ -207,6 +205,8 @@ function sedmicni(){
 }
 
 function ucitaj(varVrijeme){
+	var varAutor = "";
+	varAutor = window.location.search.replace("?autor=", "");
 	var ajax = new XMLHttpRequest();
 	ajax.onreadystatechange = function() {
    		if (ajax.readyState == 4 && ajax.status == 200){
@@ -217,7 +217,12 @@ function ucitaj(varVrijeme){
    		}    	
 
     }
-	ajax.open("GET", "ucitajVijesti.php?vrijeme=" + varVrijeme);
+
+    if(varAutor != ""){
+    	ajax.open("GET", "ucitajVijesti.php?vrijeme=" + varVrijeme + "&autor=" + varAutor);
+    }
+	else 
+		ajax.open("GET", "ucitajVijesti.php?vrijeme=" + varVrijeme);
 	ajax.send();
 }
 
