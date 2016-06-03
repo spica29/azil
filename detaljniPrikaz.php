@@ -26,6 +26,7 @@
 		<div class='opisVremena'></div>
 		<div class='vrijeme'>" . $vijest['vrijeme'] . "</div>";
 		//prikaz autora
+		print "<h4 id='autor'>Autor: <a href='autorVijesti.php?autor=" . $autor['id'] . "'>" . $autor['naziv'] . "</a></h4>";
 		print "<p>" . $vijest['opis'];
 		print "</p></article>";
 	?>
