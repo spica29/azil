@@ -13,7 +13,19 @@
 		include 'header.php';
 		include 'db.php';
 
+		$tekstKomentara = null;
+		$username = null;
+
 		$idVijesti = $_REQUEST["id"];
+		if(isset($_POST['tekstKomentara']) && isset($_POST['username']))
+		{
+			$tekstKomentara = $_POST['tekstKomentara'];
+			$username = $_POST['username'];
+
+			//spasavanje komentara
+			unesiKomentar($idVijesti, $tekstKomentara, $username);
+		}
+
 		$vijest = nadjiVijest($idVijesti);
 
 		$autorID = nadjiAutoraVijesti($idVijesti);
@@ -39,7 +51,7 @@
 				echo "Nema komentara";
 			}
 
-			formaZaUnosKomentara($korisnik);
+			formaZaUnosKomentara($korisnik, $idNovosti);
 
 		} else {
 			echo "Nije dozvoljeno komentarisanje";

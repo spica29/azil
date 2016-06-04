@@ -159,8 +159,9 @@
 		}
 	}
 
-	function formaZaUnosKomentara($korisnik){
-		print "<form id='unosKomentara'>";
+	function formaZaUnosKomentara($korisnik, $idNovosti){
+		$stranica = 'detaljniPrikaz.php?id=' . $idNovosti;
+		print "<form id='unosKomentara' method='POST' action=" . $stranica . ">";
 		print "<h3>Unos komentara</h3>";
 			if($korisnik == null) //ako nije logovan trazi username gosta
 				print "<label for='username'>Nick: </label>
@@ -171,7 +172,7 @@
 			print "<label for='tekstKomentara'>Tekst komentara: </label><br>
 			<textarea name='tekstKomentara' id='tekstKomentara' cols='100' rows='5' required></textarea>
 			<br>";
-			print "<br><input type='submit' value='Komentariši'>";
+			print "<input type='submit' value='Komentariši'>";
 		print "</form>";
 	}
 
