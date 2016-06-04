@@ -202,12 +202,14 @@
 				print $tekstKomentara . "</p>";
 
 				//prikaz odgovora na komentar
-				print "<form id='odgovor'>";
+				$stranica = 'detaljniPrikaz.php?id=' . $komentar['novost_id'];
+				print "<form id='odgovor' method='POST' action=" . $stranica . ">";
 					print "Odgovori: <br>";
 					print "<label for='username'>Nick: </label>
 					<input type='text' name='username' id='username' required>  ";
 					print " <label for='tekstOdgovora'>Tekst komentara: </label> 
-					<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea><br>";
+					<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea>";
+					print "<input type='submit' value='Odgovori'>";
 				print "</form>";
 
 				print "</article>";

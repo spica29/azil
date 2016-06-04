@@ -66,6 +66,19 @@ article {
     width: 80%;
 }
 
+input[type=submit] {
+    width: 100px;
+    border-radius: 25px;
+    background-color: #33001a;
+    color: white;
+    margin: 8px 8px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #1a000d;
+}
+
 #tekstOdgovora {
     width: 40%;
     border: 1px solid #ccc;
