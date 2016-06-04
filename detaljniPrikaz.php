@@ -19,35 +19,32 @@
 		$autorID = nadjiAutoraVijesti($idVijesti);
 		$autor = nadjiAutoraID($autorID);
 
-		print "<article class='vijest'>
-				<img src='" . $vijest['urlslike'] . "' alt='slika'/>
-				<h3>";
-		print $vijest['naslov'] . "</h3>
-		<div class='opisVremena'></div>
-		<div class='vrijeme'>" . $vijest['vrijeme'] . "</div>";
-		//prikaz autora
-		print "<h4 id='autor'>Autor: <a href='index.php?autor=" . $autor['id'] . "'>" . $autor['naziv'] . "</a></h4>";
-		print "<p>" . $vijest['opis'];
-		print "</p></article>";
+		prikaziVijest($vijest, $autor);
 
-		$korisnik = "Amela"; // username
-		$tekstKomentara = "Predivno je zaista";
-		//ispisivanje komentara
-		print "<section id='komentari'>";
-			print "<h3>Komentari:</h3>";
-			print "<article id='komentar'>";
-				print "Korisnik: " . $korisnik;
-				print "<br>Komentar: " . $tekstKomentara;
-			print "</article>";
-			print "<article id='komentar'>";
-				print "Korisnik: " . $korisnik;
-				print "<br>Komentar: " . $tekstKomentara;
-			print "</article>";
-			print "<article id='komentar'>";
-				print "Korisnik: " . $korisnik;
-				print "<br>Komentar: " . $tekstKomentara;
-			print "</article>";
-		print "</section>";
+		//komentari
+		$korisnik = null; //korisnik nije logovan
+		if(isset($_SESSION['username']))
+			$korisnik = nadjiKorisnikaUsername(); // username
+
+		//trazenje komentara za novost
+		$idNovosti = $_GET['id'];
+		//provjera je li dozvoljeno komentarisanje
+		if(dozvoljenoKomentarisanje($idNovosti)){
+			//dozvoljeno
+			$komentari = nadjiKomentare($idNovosti);
+
+			if($komentari != false)
+				ispisivanjeKomentaraVijesti($komentari);	
+			else {
+				echo "Nema komentara";
+			}
+
+			formaZaUnosKomentara($korisnik);
+
+		} else {
+			echo "Nije dozvoljeno komentarisanje";
+		}	
+
 	?>
 	
 	<footer>

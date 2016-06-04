@@ -58,11 +58,37 @@ article {
     overflow: hidden;
 }
 
+#username {
+    width: 20%;
+}
+
+#tekstKomentara {
+    width: 80%;
+}
+
+#tekstOdgovora {
+    width: 40%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;margin: 0px 3px;
+
+}
+
+#username , #tekstKomentara{
+    padding: 5px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
 .vijest {
     text-align: center;
 }
 
-#komentari{
+
+#komentari, #unosKomentara {
     border-radius: 25px;
     border: 3px solid #333;
     display: block;
@@ -73,10 +99,10 @@ article {
     width: 100%;
 }
 
-#komentar{
+#komentar {
     border-radius: 20px;
     border: 3px solid white;
-    padding-left: 4px;
+    padding-left: 2%;
 }
 
 img {
