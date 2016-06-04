@@ -29,6 +29,25 @@
 		print "<h4 id='autor'>Autor: <a href='index.php?autor=" . $autor['id'] . "'>" . $autor['naziv'] . "</a></h4>";
 		print "<p>" . $vijest['opis'];
 		print "</p></article>";
+
+		$korisnik = "Amela"; // username
+		$tekstKomentara = "Predivno je zaista";
+		//ispisivanje komentara
+		print "<section id='komentari'>";
+			print "<h3>Komentari:</h3>";
+			print "<article id='komentar'>";
+				print "Korisnik: " . $korisnik;
+				print "<br>Komentar: " . $tekstKomentara;
+			print "</article>";
+			print "<article id='komentar'>";
+				print "Korisnik: " . $korisnik;
+				print "<br>Komentar: " . $tekstKomentara;
+			print "</article>";
+			print "<article id='komentar'>";
+				print "Korisnik: " . $korisnik;
+				print "<br>Komentar: " . $tekstKomentara;
+			print "</article>";
+		print "</section>";
 	?>
 	
 	<footer>

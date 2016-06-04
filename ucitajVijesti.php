@@ -1,6 +1,6 @@
 <?php
-	$vrijeme;
-	if(isset($_GET['vrijeme'])){
+	$vrijeme;// = "sve";
+	if(!empty($_GET['vrijeme'])){
 		$vrijeme = $_GET['vrijeme'];
 	} else $vrijeme = "sve";
 	
@@ -40,11 +40,12 @@
 			{
 				ispisiVijest($c);
 			}
-			else if($vrijeme == "sve") ispisiVijest($c);	
 			else if($year == $cYear && $month == $cMonth && $vrijeme == "mjesecni")
 			{
 				ispisiVijest($c);
 			} else if($dayOfTheWeek - $cDayOfTheWeek < 7 && $dayOfTheWeek - $cDayOfTheWeek >= 0 && $razlikaUDanima < 7 && $razlikaUDanima >= 0 && $vrijeme == "sedmicni"){
+				ispisiVijest($c);
+			} else if ($vrijeme == "sve") {
 				ispisiVijest($c);
 			}
 		}

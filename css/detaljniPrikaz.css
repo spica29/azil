@@ -48,7 +48,7 @@ nav ul li a:hover:not(.active) {
 /* article css */
 article {
     /* prepavljeno da budu i kolone */
-    text-align: center;
+    
     display: block;
     padding: 15px 0px 25px 0px;
     /*border-top: 1px solid #e8e8e8;*/
@@ -56,6 +56,27 @@ article {
     height: 90%;
     margin-top: 2%;
     overflow: hidden;
+}
+
+.vijest {
+    text-align: center;
+}
+
+#komentari{
+    border-radius: 25px;
+    border: 3px solid #333;
+    display: block;
+    padding: 1%;
+    margin: 1%;
+    background-color: #660033;
+    color: white;
+    width: 100%;
+}
+
+#komentar{
+    border-radius: 20px;
+    border: 3px solid white;
+    padding-left: 4px;
 }
 
 img {

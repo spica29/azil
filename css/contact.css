@@ -93,12 +93,12 @@ input[type=submit]:hover {
 }
 
 .wrap{
-position:absolute;
-background:transparent;
-left:90px; 
-top:0px;
-width:150px;
-height:120px;
+    position:absolute;
+    background:transparent;
+    left:90px; 
+    top:0px;
+    width:150px;
+    height:120px;
 }
 
 .wrap:hover ~ body{

@@ -1,5 +1,5 @@
 window.onload = function(){
-	//ucitaj("sve");
+	ucitaj("sve");
 }
 
 function sortirajVremenski(){
