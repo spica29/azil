@@ -189,32 +189,83 @@
 		}
 	}
 
+	function nadjiOdgovore($idParenta){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * FROM komentar WHERE komentar_id = :idParent");
+		$upit->bindValue(':idParent', $idParenta);
+		$upit->execute();
+		
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit;
+		}
+	}
+
+	function ispisKomentara($komentar){
+		print "<article id='komentar'>";
+		//nalazenje korisnika koji je napisao komentar
+		$korisnik = nadjiKorisnikaUsernameID($komentar['korisnik_id']);
+		print "<p>" . $korisnik . ": ";
+		//nalazenje teksta komentara
+		$tekstKomentara = $komentar['komentar'];
+		print $tekstKomentara . "</p>";
+	}
+
+	function ispisformeOdg($komentar){
+		$stranica = 'detaljniPrikaz.php?id=' . $komentar['novost_id'];
+		print "<form id='odgovor' method='POST' action=" . $stranica . ">";
+			print "<br>Odgovori: <br>";
+			if(!isset($_SESSION['username']))
+			{
+				print "<label for='username'>Nick: </label>
+				<input type='text' name='username' id='username' required>  ";
+				print " <label for='tekstOdgovora'>Tekst komentara: </label>";
+			} else {
+				print "<label for='username'> " . $_SESSION['username'] . ": </label> ";
+			}
+			
+			print "<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea>";
+			print "<input name='komentar_id' type='hidden' value='".$komentar["id"]."' >";
+			print "<input type='submit' value='Odgovori'>";
+		print "</form>";
+	}
+
+	function rekurzija($komentar){
+		$odgovori = nadjiOdgovore($komentar['id']);
+	if($odgovori != false){
+			foreach ($odgovori->fetchAll() as $odgovor) {
+				ispisKomentara($odgovor);
+				ispisformeOdg($odgovor);
+				
+				$odgovori = nadjiOdgovore($odgovor['id']);
+				if($odgovori != false){
+					rekurzija($odgovor);
+				} 
+				print "</article>";
+			}	
+		}
+		else {
+			return;
+		}
+		
+	}
+
 	function ispisivanjeKomentaraVijesti($komentari){
 		//ispisivanje komentara
 		print "<section id='komentari'>";
-			print "<h3>Komentari:</h3>";
-			foreach($komentari->fetchAll() as $komentar){
-				print "<article id='komentar'>";
-				//nalazenje korisnika koji je napisao komentar
-				$korisnik = nadjiKorisnikaUsernameID($komentar['korisnik_id']);
-				print "<p>" . $korisnik . ": ";
-				//nalazenje teksta komentara
-				$tekstKomentara = $komentar['komentar'];
-				print $tekstKomentara . "</p>";
-
-				//prikaz odgovora na komentar
-				$stranica = 'detaljniPrikaz.php?id=' . $komentar['novost_id'];
-				print "<form id='odgovor' method='POST' action=" . $stranica . ">";
-					print "Odgovori: <br>";
-					print "<label for='username'>Nick: </label>
-					<input type='text' name='username' id='username' required>  ";
-					print " <label for='tekstOdgovora'>Tekst komentara: </label> 
-					<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea>";
-					print "<input type='submit' value='Odgovori'>";
-				print "</form>";
-
+		print "<h3>Komentari:</h3>";
+		
+		foreach($komentari->fetchAll() as $komentar){
+			if($komentar['komentar_id'] == null){
+				ispisKomentara($komentar);
+				rekurzija($komentar);
+				ispisformeOdg($komentar);
 				print "</article>";
-			}			
+			}	
+		}			
+
 		print "</section>";
 	}
 
@@ -230,5 +281,48 @@
 			if($upit->fetch(PDO::FETCH_LAZY)['komentaridozvoljeni'] == 1) return true;
 			else return false;
 		}
+	}
+
+	function dodajGosta($username){
+		$veza = konekcija();
+		//upis gosta
+		$upit = $veza->prepare("INSERT INTO korisnik (username, tipkorisnika_id, password) 
+			VALUES (:username, :tipkorisnika_id, :password)");
+		$upit->bindValue(':username', $username);
+		$upit->bindValue(':tipkorisnika_id', 3, PDO::PARAM_INT);
+		$upit->bindValue(':password', NULL);
+		$upit->execute();
+	}
+
+	function nadjiKorisnikaSaUsername($username){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT id FROM korisnik WHERE username= :username");
+		$upit->bindValue(':username', $username);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit->fetch(PDO::FETCH_LAZY)['id'];
+		}
+	}
+
+	function dodajKomentar($tekstKomentara, $komentarParent, $username, $vijest){
+		$veza = konekcija();
+		$korisnik = nadjiKorisnikaSaUsername($username);
+		if($korisnik == false){
+			//echo "Nije nadjen korisnik";	
+			return;
+		} 
+
+		//upis komentara
+		$upit = $veza->prepare("INSERT INTO komentar (komentar, novost_id, komentar_id, procitan, korisnik_id) 
+			VALUES (:komentar, :novost_id, :komentar_id, :procitan, :korisnik_id)");
+		$upit->bindValue(':komentar', $tekstKomentara);
+		$upit->bindValue(':novost_id', $vijest, PDO::PARAM_INT);
+		$upit->bindValue(':komentar_id', $komentarParent, PDO::PARAM_INT);
+		$upit->bindValue(':procitan', 0, PDO::PARAM_INT);
+		$upit->bindValue(':korisnik_id', $korisnik, PDO::PARAM_INT);
+		$upit->execute();
 	}
 ?>

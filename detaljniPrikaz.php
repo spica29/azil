@@ -15,16 +15,10 @@
 
 		$tekstKomentara = null;
 		$username = null;
-
-		$idVijesti = $_REQUEST["id"];
-		if(isset($_POST['tekstKomentara']) && isset($_POST['username']))
-		{
-			$tekstKomentara = $_POST['tekstKomentara'];
-			$username = $_POST['username'];
-
-			//spasavanje komentara
-			unesiKomentar($idVijesti, $tekstKomentara, $username);
-		}
+		//dodavanje komentara POST
+		include 'komentar.php';
+		$idVijesti = $_GET['id'];
+		//ucitavanje stranice
 
 		$vijest = nadjiVijest($idVijesti);
 
