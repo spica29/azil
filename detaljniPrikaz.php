@@ -20,12 +20,18 @@
 		$idVijesti = $_GET['id'];
 		//ucitavanje stranice
 
+		if(isset($_POST['obrisiVijest'])){
+			obrisiVijest($idVijesti);
+			//redirect
+			header('Location: '.'index.php');
+		}
+
 		$vijest = nadjiVijest($idVijesti);
 
 		$autorID = nadjiAutoraVijesti($idVijesti);
 		$autor = nadjiAutoraID($autorID);
 
-		prikaziVijest($vijest, $autor);
+		prikaziVijest($vijest, $autor, $idVijesti);
 
 		//komentari
 		$korisnik = null; //korisnik nije logovan

@@ -16,11 +16,11 @@
 	<ul>
 		<li><b><a <?php echo ($page == 'index') ? "class='active'" : ""; ?> href="index.php">NASLOVNICA</a></b></li>
 		<li><b><a <?php echo ($page == 'usvoji') ? "class='active'" : ""; ?> href="usvoji.php">USVOJI</a></b></li>
-		<li><b><a <?php echo ($page == 'foster') ? "class='active'" : ""; ?> href="postanifoster.php">POSTANI FOSTER</a></b></li>
+		<!--<li><b><a <?php echo ($page == 'foster') ? "class='active'" : ""; ?> href="postanifoster.php">POSTANI FOSTER</a></b></li>-->
 		<li><b><a <?php echo ($page == 'oazilu') ? "class='active'" : ""; ?> href="oazilu.php">O AZILU</a></b></li>
 		<li><b><a <?php echo ($page == 'contact') ? "class='active'" : ""; ?> href="contact.php">KONTAKT</a></b></li>
 		<?php
-			if(isset($_SESSION['username'])){
+			if(isset($_SESSION['username']) && ($_SESSION['username'] != 'admin')){
 				print "<li><b><a ";
 				print ($page == 'dodavanjenovosti') ? "class='active'" : "";
 				print " href='dodavanjenovosti.php'>DODAVANJE NOVOSTI</a></b></li>";

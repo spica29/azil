@@ -29,7 +29,7 @@
 			return false;
 		}
 		else {
-			return $upit;
+			return $upit->fetch(PDO::FETCH_LAZY)['id'];;
 		}
 	}
 
@@ -50,7 +50,6 @@
 	function nadjiAutora(){
 		$veza = konekcija();
 		$id = nadjiKorisnika();
-		$id = $id->fetch(PDO::FETCH_LAZY)['id'];
 		$upit = $veza->prepare("SELECT id FROM autor WHERE korisnik_id = :id");
 		$upit->bindValue(':id', $id, PDO::PARAM_INT);
 		$upit->execute();
@@ -58,7 +57,7 @@
 			return false;
 		}
 		else {
-			return $upit;
+			return $upit->fetch(PDO::FETCH_LAZY)['id'];
 		}
 	}
 
@@ -87,7 +86,7 @@
 		$veza = konekcija();
 		//nalazenje id autora
 		$broj = nadjiAutora();
-		$broj = $broj->fetch(PDO::FETCH_LAZY)['id'];
+		
 		//upis novosti
 		$upit = $veza->prepare("INSERT INTO novost (naslov, opis, vrijeme, urlslike, komentaridozvoljeni, autor_id) 
 			VALUES (:naslov, :opis, :vrijeme, :urlslike, :komentaridozvoljeni, :autor)");
@@ -133,8 +132,9 @@
 		}
 	}
 
-	function prikaziVijest($vijest, $autor){
-		print "<article class='vijest'>
+	function prikaziVijest($vijest, $autor, $idVijesti){
+		$stranica = 'detaljniPrikaz.php?id=' . $idVijesti;
+		print "<article class='vijest'><form method='POST' action=" . $stranica . ">
 				<img src='" . $vijest['urlslike'] . "' alt='slika'/>
 				<h3>";
 		print $vijest['naslov'] . "</h3>
@@ -143,7 +143,8 @@
 		//prikaz autora
 		print "<h4 id='autor'>Autor: <a href='index.php?autor=" . $autor['id'] . "'>" . $autor['naziv'] . "</a></h4>";
 		print "<p>" . $vijest['opis'];
-		print "</p></article>";
+		print "<br><input type='submit' name='obrisiVijest' value='Obriši'>";
+		print "</p></form></article>";
 	}
 
 	function nadjiKomentare($idNovosti){
@@ -242,6 +243,9 @@
 			print "<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea>";
 			print "<input name='komentar_id' type='hidden' value='".$komentar["id"]."' >";
 			print "<input type='submit' value='Odgovori'>";
+			if($_SESSION['username'] == 'admin'){
+				print "<input type='submit' value='Obriši'>";
+			}
 		print "</form>";
 	}
 
@@ -390,7 +394,7 @@
 		}
 	}
 
-	function autorZaBrisanje($idKorisnika){
+	function idAutoraPrekoIDKorisnika($idKorisnika){
 		$veza = konekcija();
 		$upit = $veza->prepare("SELECT id FROM autor WHERE korisnik_id = :id");
 		$upit->bindValue(':id', $idKorisnika);
@@ -419,8 +423,8 @@
 	function editujAutora($username, $naziv, $stariUsername){
 		$veza = konekcija();
 		$idKorisnika = korisnikIDprekoUsername($stariUsername);
-		$autor = autorZaBrisanje($idKorisnika);
-		
+		$autor = idAutoraPrekoIDKorisnika($idKorisnika);
+
 		//update naziva
 		if($autor == false || $idKorisnika == false) return;
 
@@ -441,7 +445,7 @@
 	function obrisiAutora($username){
 		$veza = konekcija();
 		$idKorisnika = korisnikIDprekoUsername($username);
-		$autor = autorZaBrisanje($idKorisnika);
+		$autor = idAutoraPrekoIDKorisnika($idKorisnika);
 
 		if($autor == false || $idKorisnika == false) return;
 
@@ -460,9 +464,60 @@
 		$upit->bindValue(':id', $autor, PDO::PARAM_INT);
 		$upit->execute();
 
+		//PREPRAVITI NE OBRISE FINO!
 		//brisanje iz tabele korisnika
 		$upit = $veza->prepare("DELETE FROM korisnik WHERE id=:id");
 		$upit->bindValue(':id', $idKorisnika, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function postojiUsername($username){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT id FROM korisnik WHERE username = :username");
+		$upit->bindValue(':username', $username);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	function dodajKorisnika($username, $naziv, $password){
+		$veza = konekcija();
+		//provjera postoji li username
+
+		if(postojiUsername($username)) return false;
+		//insert u korisnika
+		$upit = $veza->prepare("INSERT INTO korisnik (username, password, tipkorisnika_id) 
+			VALUES (:username, :password, :tipkorisnika_id)");
+		$upit->bindValue(':username', $username);
+		$upit->bindValue(':password', md5($password));
+		$upit->bindValue(':tipkorisnika_id', 2, PDO::PARAM_INT);
+		$upit->execute();
+
+		$idKorisnika = korisnikIDprekoUsername($username);
+
+		//insert u autora
+		$upit = $veza->prepare("INSERT INTO autor (naziv, koddrzave, brojtelefona, korisnik_id) 
+			VALUES (:naziv, :koddrzave, :brojtelefona, :korisnik_id)");
+		$upit->bindValue(':naziv', $naziv);
+		$upit->bindValue(':koddrzave', "ba");
+		$upit->bindValue(':brojtelefona', "+387");
+		$upit->bindValue(':korisnik_id', $idKorisnika, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function obrisiVijest($idVijesti){
+		$veza = konekcija();
+		//brisanje komentara
+		$upit = $veza->prepare("DELETE FROM komentar WHERE novost_id=:id");
+		$upit->bindValue(':id', $idVijesti, PDO::PARAM_INT);
+		$upit->execute();
+		//brisanje vijesti
+		$upit = $veza->prepare("DELETE FROM novost WHERE id=:id");
+		$upit->bindValue(':id', $idVijesti, PDO::PARAM_INT);
 		$upit->execute();
 	}
 ?>
