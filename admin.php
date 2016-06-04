@@ -12,9 +12,22 @@
 		include 'header.php';
 		include 'db.php';
 
+		$username = null;
+
+		if(isset($_POST['usernameKorisnika']))
+			$username = $_POST['usernameKorisnika'];
+		
 		if(isset($_POST['brisanje'])){
-			$username = $_POST['username'];
 			obrisiAutora($username);
+		}
+
+		if(isset($_POST['edit'])){
+			$naziv;
+			if(isset($_POST['naziv'])){
+				$naziv = $_POST['naziv'];
+			}
+			$stariUsername = $_POST['starUsername'];
+			editujAutora($username, $naziv, $stariUsername);
 		}
 
 		if(isset($_POST['ponisti'])){
