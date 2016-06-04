@@ -27,5 +27,12 @@
 			}
 		?>
 		<li><b><a <?php echo ($page == 'login') ? "class='active'" : ""; ?> href="login.php">LOGIN</a></b></li>
+		<?php
+			if(isset($_SESSION['username']) && $_SESSION['username'] == "admin"){
+				print "<li><b><a ";
+				print ($page == 'admin') ? "class='active'" : "";
+				print " href='admin.php'>ADMIN</a></b></li>";
+			}
+		?>
 	</ul>
 </nav>

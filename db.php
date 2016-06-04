@@ -189,6 +189,19 @@
 		}
 	}
 
+	function nadjiKorisnikaUsernamePW($id){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * FROM korisnik WHERE id= :id");
+		$upit->bindValue(':id', $id);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit->fetch();
+		}
+	}
+
 	function nadjiOdgovore($idParenta){
 		$veza = konekcija();
 		$upit = $veza->prepare("SELECT * FROM komentar WHERE komentar_id = :idParent");
@@ -234,7 +247,7 @@
 
 	function rekurzija($komentar){
 		$odgovori = nadjiOdgovore($komentar['id']);
-	if($odgovori != false){
+		if($odgovori != false){
 			foreach ($odgovori->fetchAll() as $odgovor) {
 				ispisKomentara($odgovor);
 				ispisformeOdg($odgovor);
@@ -323,6 +336,105 @@
 		$upit->bindValue(':komentar_id', $komentarParent, PDO::PARAM_INT);
 		$upit->bindValue(':procitan', 0, PDO::PARAM_INT);
 		$upit->bindValue(':korisnik_id', $korisnik, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function ucitajAutore(){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * FROM autor");
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit;
+		}
+	}
+
+	function ispisiAutore(){
+		$autori = ucitajAutore();
+		if($autori == false) echo "Nema autora";
+		else {
+			foreach($autori->fetchAll() as $autor){
+				ispisiAutora($autor);
+			}
+		}
+	}
+
+	function ispisiAutora($autor){
+		$korisnik = nadjiKorisnikaUsernamePW($autor['korisnik_id']);
+		print "<article>";
+			print "<label for='naziv'>Naziv: </label>
+			<input type='text' name='naziv' id='naziv' value='" . $autor['naziv'] . "' required>";
+			print " <label for='username'>Username: </label>
+			<input type='text' name='username' id='username' value='" . $korisnik['username'] . "' required>";
+			
+			print "<form action='admin.php' method='post'>
+			<input type='hidden' name='username' value='" . $korisnik['username'] . "' required>
+			<input type='submit' name='ponisti' value='PONIŠTI'>
+			</form>";
+			print "<form action='admin.php' method='post'>
+			<input type='hidden' name='username' value='" . $korisnik['username'] . "' required>
+			<input type='submit' name='edit' value='SPASI'>
+			</form>";
+			print "<form action='admin.php' method='post'>
+			<input type='hidden' name='username' value='" . $korisnik['username'] . "' required>
+			<input type='submit' name='brisanje' value='OBRIŠI'>
+			</form>";
+		print "</article>";
+	}
+
+	function korisnikIDprekoUsername($username){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT id FROM korisnik WHERE username = :username");
+		$upit->bindValue(':username', $username);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit->fetch(PDO::FETCH_LAZY)['id'];
+		}
+	}
+
+	function autorZaBrisanje($idKorisnika){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT id FROM autor WHERE korisnik_id = :id");
+		$upit->bindValue(':id', $idKorisnika);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return $upit->fetch(PDO::FETCH_LAZY)['id'];
+		}
+	}
+
+	function obrisiAutora($username){
+		$veza = konekcija();
+		$idKorisnika = korisnikIDprekoUsername($username);
+		$autor = autorZaBrisanje($idKorisnika);
+
+		if($autor == false || $idKorisnika == false) return;
+
+		//prije svega treba obrisati sve njegove novosti i komentare
+		//treba obrisati i odgovore na komentare!!!!!!!!!!
+		$upit = $veza->prepare("DELETE FROM komentar WHERE korisnik_id=:id");
+		$upit->bindValue(':id', $idKorisnika);
+		$upit->execute();
+
+		$upit = $veza->prepare("DELETE FROM novost WHERE autor_id=:id");
+		$upit->bindValue(':id', $autor);
+		$upit->execute();
+
+		//brisanje iz tabele autora
+		$upit = $veza->prepare("DELETE FROM autor WHERE id=:id");
+		$upit->bindValue(':id', $autor);
+		$upit->execute();
+
+		//brisanje iz tabele korisnika
+		$upit = $veza->prepare("DELETE FROM korisnik WHERE id=:id");
+		$upit->bindValue(':id', $idKorisnika);
 		$upit->execute();
 	}
 ?>
