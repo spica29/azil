@@ -29,9 +29,7 @@
 	<input type="submit" name="abecedno" value="abecedno" onclick="sortirajAbecedno();">
 
 	<section id="section" >
-		<?php 
-			include 'ucitajVijesti.php';
-		?>
+		
 	</section>
 	<footer>
 	</footer>
