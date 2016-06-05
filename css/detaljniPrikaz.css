@@ -71,6 +71,10 @@ article {
     margin-bottom: -8px;
 }
 
+#kom {
+    width: 200px;
+}
+
 input[type=submit] {
     width: 100px;
     border-radius: 25px;

@@ -132,6 +132,20 @@
 		}
 	}
 
+	function dozvoljenoKomentarisanje($idNovosti){
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT komentaridozvoljeni FROM novost WHERE id= :id");
+		$upit->bindValue(':id', $idNovosti);
+		$upit->execute();
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			if($upit->fetch(PDO::FETCH_LAZY)['komentaridozvoljeni'] == 1) return true;
+			else return false;
+		}
+	}
+
 	function prikaziVijest($vijest, $autor, $idVijesti){
 		$stranica = 'detaljniPrikaz.php?id=' . $idVijesti;
 		print "<article class='vijest'><form method='POST' action=" . $stranica . ">
@@ -143,7 +157,20 @@
 		//prikaz autora
 		print "<h4 id='autor'>Autor: <a href='index.php?autor=" . $autor['id'] . "'>" . $autor['naziv'] . "</a></h4>";
 		print "<p>" . $vijest['opis'];
-		print "<br><input type='submit' name='obrisiVijest' value='Obriši'>";
+
+		if(isset($_SESSION['username']) && $_SESSION['username'] == 'admin')
+		{
+			//brisanje vijesti ako je admin
+			print "<br><input type='submit' name='obrisiVijest' value='Obriši vijest'>";
+			//upravljanje komentarisanjem
+			if(dozvoljenoKomentarisanje($idVijesti))
+			{
+				print "<br>Komentarisanje dozvoljeno<input type='submit' name='zabraniKomentarisanje' id='kom' value='Zabrani komentarisanje'>";
+			} else {
+				print "<br>Komentarisanje zabranjeno<input type='submit' name='dozvoliKomentarisanje' id='kom' value='Dozvoli komentarisanje'>";
+			}
+		}		
+
 		print "</p></form></article>";
 	}
 
@@ -230,7 +257,7 @@
 	function ispisformeOdg($komentar){
 		$stranica = 'detaljniPrikaz.php?id=' . $komentar['novost_id'];
 		print "<form id='odgovor' method='POST' action=" . $stranica . ">";
-			print "<br>Odgovori: <br>";
+			print "Odgovori: <br>";
 			if(!isset($_SESSION['username']))
 			{
 				print "<label for='username'>Nick: </label>
@@ -243,10 +270,42 @@
 			print "<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea>";
 			print "<input name='komentar_id' type='hidden' value='".$komentar["id"]."' >";
 			print "<input type='submit' value='Odgovori'>";
-			if($_SESSION['username'] == 'admin'){
-				print "<input type='submit' value='Obriši'>";
+			if(isset($_SESSION['username']) && $_SESSION['username'] == 'admin'){
+				print "<input type='submit' name='obrisiKomentar' value='Obriši'>";
 			}
 		print "</form>";
+	}
+
+	function obrisiKomentarDB($komentarID){
+		$veza = konekcija();
+
+		$upit = $veza->prepare("DELETE FROM komentar WHERE id=:id");
+		$upit->bindValue(':id', $komentarID, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function obrisiKomentar($komentar){
+		$odgovori = nadjiOdgovore($komentar['id']);
+		if($odgovori != false)
+		{
+			//ako ima odgovora ide dalje
+			foreach ($odgovori->fetchAll() as $odgovor) {		
+				$odgovori = nadjiOdgovore($odgovor['id']);
+				if($odgovori != false){
+					//obrisiKomentarDB($odgovor['id']);
+				
+					obrisiKomentar($odgovor);	
+				}
+				//print "<script>console.log(' usao odg " . $odgovor['komentar'] . "')</script>";
+				obrisiKomentarDB($odgovor['id']);
+			}	
+		}
+		//ako nema odgovora brise komentar 
+		
+		//print "<script>console.log(' usao odg " . $komentar['komentar'] . "')</script>";
+		obrisiKomentarDB($komentar['id']);
+		return;
+		
 	}
 
 	function rekurzija($komentar){
@@ -265,8 +324,7 @@
 		}
 		else {
 			return;
-		}
-		
+		}		
 	}
 
 	function ispisivanjeKomentaraVijesti($komentari){
@@ -284,20 +342,6 @@
 		}			
 
 		print "</section>";
-	}
-
-	function dozvoljenoKomentarisanje($idNovosti){
-		$veza = konekcija();
-		$upit = $veza->prepare("SELECT komentaridozvoljeni FROM novost WHERE id= :id");
-		$upit->bindValue(':id', $idNovosti);
-		$upit->execute();
-		if($upit->rowCount() <= 0) {
-			return false;
-		}
-		else {
-			if($upit->fetch(PDO::FETCH_LAZY)['komentaridozvoljeni'] == 1) return true;
-			else return false;
-		}
 	}
 
 	function dodajGosta($username){
@@ -428,18 +472,15 @@
 		//update naziva
 		if($autor == false || $idKorisnika == false) return;
 
-		debug_to_console("GOTOVO");
 		$upit = $veza->prepare("UPDATE autor SET naziv=:naziv WHERE id=:id");
 		$upit->bindValue(':id', $autor, PDO::PARAM_INT);
 		$upit->bindValue(':naziv', $naziv);
 		$upit->execute();
-		debug_to_console("GOTOVO");
 		//update username
 		$upit = $veza->prepare("UPDATE korisnik SET username=:username WHERE id=:idK");
 		$upit->bindValue(':idK', $idKorisnika, PDO::PARAM_INT);
 		$upit->bindValue(':username', $username);
 		$upit->execute();
-		debug_to_console("GOTOVO");
 	}
 
 	function obrisiAutora($username){
@@ -450,21 +491,44 @@
 		if($autor == false || $idKorisnika == false) return;
 
 		//prije svega treba obrisati sve njegove novosti i komentare
-		//treba obrisati i odgovore na komentare!!!!!!!!!!
-		$upit = $veza->prepare("DELETE FROM komentar WHERE korisnik_id=:id");
+		$upit = $veza->prepare("SELECT * FROM komentar WHERE korisnik_id=:id");
 		$upit->bindValue(':id', $idKorisnika, PDO::PARAM_INT);
 		$upit->execute();
+		$komentari = $upit->fetchAll();
+		//prolazak kroz listu komentara
+		foreach ($komentari as $komentar) {
+			obrisiKomentar($komentar);
+		}	
 
+		//prije brisanja novosti treba obrisati sve komentare na novost autora
+		$upit = $veza->prepare("SELECT * FROM novost WHERE autor_id=:id");
+		$upit->bindValue(':id', $autor, PDO::PARAM_INT);
+		$upit->execute();
+		$novostiID = $upit->fetchAll();
+
+		//brisanje
+		foreach ($novostiID as $novostID) {
+			$upit = $veza->prepare("SELECT * FROM komentar WHERE novost_id=:id");
+			$upit->bindValue(':id', $novostID['id'], PDO::PARAM_INT);
+			$upit->execute();
+			$komentari = $upit->fetchAll();
+			//prolazak kroz listu komentara
+			foreach ($komentari as $komentar) {
+				obrisiKomentar($komentar);
+			}	
+		}
+
+		//brisanje novosti
 		$upit = $veza->prepare("DELETE FROM novost WHERE autor_id=:id");
 		$upit->bindValue(':id', $autor, PDO::PARAM_INT);
 		$upit->execute();
 
 		//brisanje iz tabele autora
+		//stavljanje korisnik id na null
 		$upit = $veza->prepare("DELETE FROM autor WHERE id=:id");
 		$upit->bindValue(':id', $autor, PDO::PARAM_INT);
 		$upit->execute();
 
-		//PREPRAVITI NE OBRISE FINO!
 		//brisanje iz tabele korisnika
 		$upit = $veza->prepare("DELETE FROM korisnik WHERE id=:id");
 		$upit->bindValue(':id', $idKorisnika, PDO::PARAM_INT);
@@ -518,6 +582,32 @@
 		//brisanje vijesti
 		$upit = $veza->prepare("DELETE FROM novost WHERE id=:id");
 		$upit->bindValue(':id', $idVijesti, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function zabraniKomentarisanje($idNovosti){
+		$veza = konekcija();
+		$upit = $veza->prepare("UPDATE novost SET komentaridozvoljeni=:kom WHERE id=:id");
+		$upit->bindValue(':id', $idNovosti, PDO::PARAM_INT);
+		$upit->bindValue(':kom', 0, PDO::PARAM_INT);
+		$upit->execute();
+
+		//brisanje komentara
+		$upit = $veza->prepare("UPDATE komentar SET komentar_id=:kom WHERE novost_id=:id");
+		$upit->bindValue(':id', $idNovosti, PDO::PARAM_INT);
+		$upit->bindValue(':kom', NULL);
+		$upit->execute();
+
+		$upit = $veza->prepare("DELETE FROM komentar WHERE novost_id=:id");
+		$upit->bindValue(':id', $idNovosti, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function dozvoliKomentarisanje($idNovosti){
+		$veza = konekcija();
+		$upit = $veza->prepare("UPDATE novost SET komentaridozvoljeni=:kom WHERE id=:id");
+		$upit->bindValue(':id', $idNovosti, PDO::PARAM_INT);
+		$upit->bindValue(':kom', 1, PDO::PARAM_INT);
 		$upit->execute();
 	}
 ?>

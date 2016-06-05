@@ -26,6 +26,19 @@
 			header('Location: '.'index.php');
 		}
 
+		if(isset($_POST['obrisiKomentar'])){
+			$komentar = $_POST['komentar_id'];
+			obrisiKomentar($komentar);
+		}
+
+		if(isset($_POST['zabraniKomentarisanje'])){
+			zabraniKomentarisanje($idVijesti);
+		}
+
+		if(isset($_POST['dozvoliKomentarisanje'])){
+			dozvoliKomentarisanje($idVijesti);
+		}
+
 		$vijest = nadjiVijest($idVijesti);
 
 		$autorID = nadjiAutoraVijesti($idVijesti);
