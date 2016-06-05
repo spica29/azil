@@ -1,5 +1,6 @@
-window.onload = function(){
+function func(){
 	ucitaj("sve");
+	return false;
 }
 
 function sortirajVremenski(){

@@ -20,7 +20,7 @@
 	}
 
 	//tekst komentara
-	if(isset($_POST['tekstOdgovora'])){
+	if(isset($_POST['tekstOdgovora']) && !empty($_POST['tekstOdgovora'])){
 		$tekstKomentara = htmlEntities($_POST['tekstOdgovora'], ENT_QUOTES);
 		if(isset($_POST['komentar_id'])){
 			$komentarParent = htmlEntities($_POST['komentar_id'], ENT_QUOTES);;

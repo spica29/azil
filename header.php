@@ -9,7 +9,14 @@
     <div class="toe-3"></div>
     <div class="toe-4"></div>
 </div>
-
+<script type="text/javascript" src="js/notifikacije.js"></script>
+<?php 
+	include 'db.php'; 
+?>
+<script>
+ 		notifikacija();
+ 		setInterval(notifikacija, 1500);
+</script>
 <header><h1>Azil za životinje - ŠAPA</h1></header><br>
 
 <nav>
@@ -28,10 +35,16 @@
 		?>
 		<li><b><a <?php echo ($page == 'login') ? "class='active'" : ""; ?> href="login.php">LOGIN</a></b></li>
 		<?php
+
 			if(isset($_SESSION['username']) && $_SESSION['username'] == "admin"){
 				print "<li><b><a ";
 				print ($page == 'admin') ? "class='active'" : "";
 				print " href='admin.php'>ADMIN</a></b></li>";
+			}
+
+			if(isset($_SESSION['username']) && $_SESSION['username'] != "admin"){
+				
+				print "<li id='notif'><a href='index.php'></a></li>";
 			}
 		?>
 	</ul>

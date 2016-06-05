@@ -10,7 +10,7 @@
 		include 'loginfunc.php';
 		$page = 'admin';
 		include 'header.php';
-		include 'db.php';
+		//include 'db.php';
 
 		include 'dodavanjeKorisnika.php';
 		$username = null;

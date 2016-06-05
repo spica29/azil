@@ -19,9 +19,87 @@
 		}
 	}
 
-	function nadjiKorisnika(){
+	function postaviProcitaneKomentare($idNovosti){
 		$veza = konekcija();
+		$autorID = nadjiAutora();
+
+
+		if($autorID == false) return;
+
+		$upit = $veza->prepare("SELECT id FROM novost WHERE autor_id = :id");
+		$upit->bindValue(':id', $autorID);
+		$upit->execute();
+		//print "<script>console.log('autor: " . $upit->fetch(PDO::FETCH_LAZY)['id'] . "')</script>";
+		$idNovost = $upit->fetch(PDO::FETCH_LAZY)['id'];
+
+		if($idNovost != $idNovosti) return;		
+
+		$upit = $veza->prepare("UPDATE komentar SET procitan=1 WHERE novost_id = :id");
+		$upit->bindValue(':id', $idNovosti);
+		$upit->execute();
+	}
+
+	function izbrojNeprocitaneSveVijesti(){
+		$autorID = nadjiAutora();
+		$novosti = nadjiNovostiAutora($autorID);
+		$suma = 0;
+		foreach ($novosti as $novost) {
+			$suma += brojNeprocitanih($novost['id']);
+		}
+		return $suma;
+	}
+
+	function brojNeprocitanih($idNovosti){
+		//treba prebrojati neprocitane komentare
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * From KOMENTAR WHERE novost_id = :id AND PROCITAN = 0");
+		$upit->bindValue(':id', $idNovosti);
+		$upit->execute();
+		return $upit->rowCount();
+	}
+
+	function ispisiNotifikaciju($idNovosti){
+		//print $_SESSION['username'];
+		$broj = brojNeprocitanih($idNovosti);
+		if($broj > 0){
+			print "<p>Broj nepročitanih komentara: ";
+			print $broj;
+			print "</p>";
+		}		
+	}
+
+	function ispisiVijest($c){
+		print "<article class='vijest'>
+				<a href='detaljniPrikaz.php?id=" . $c['id'] . "'><img src='" . $c['urlslike'] . "' alt='slika'/></a>
+				<h3>";
+		print $c['naslov'] . "</h3>
+		<div class='opisVremena'></div>
+		<div class='vrijeme'>" . $c['vrijeme'] . "</div>";
+		//ispis notifikacija za autora
+		if(isset($_SESSION['username']) && nadjiTipKorisnika() == 2){
+			ispisiNotifikaciju($c['id']);	
+		}
+
+		$opis = $c['opis'];
+		//racunanje pozicije od koje ce traziti space za skracivanje stringa
+		$vel = strlen($opis);
+		if($vel > 250) $vel = 250;
+		else $vel = 0;
+		//nalazenje pozicije
+		$pozicija = strpos($opis, " ", $vel);
+		//print "pozicija: " . $pozicija;
+		if(strlen($opis) > 250) {
+			$opis = substr($opis, 0, $pozicija);
+			print "<p>" . $opis . " .."; 
+		}
+		else 
+			print "<p>" . $c['opis'];
+		print "</p></article>";
+	}	
+
+	function nadjiKorisnika(){
 		$username = $_SESSION['username'];
+		$veza = konekcija();
 		$upit = $veza->prepare("SELECT id FROM korisnik WHERE username= :username");
 		$upit->bindValue(':username', $username);
 		$upit->execute();
@@ -31,6 +109,17 @@
 		else {
 			return $upit->fetch(PDO::FETCH_LAZY)['id'];;
 		}
+	}
+
+	function nadjiTipKorisnika(){
+		$veza = konekcija();
+		$idKorisnika;
+		$idKorisnika = nadjiKorisnika();
+
+		$upit = $veza->prepare("SELECT tipkorisnika_id FROM korisnik WHERE id= :idKorisnika");
+		$upit->bindValue(':idKorisnika', $idKorisnika, PDO::PARAM_INT);
+		$upit->execute();
+		return $upit->fetch(PDO::FETCH_LAZY)['tipkorisnika_id'];	
 	}
 
 	function nadjiKorisnikaUsername(){
@@ -267,7 +356,7 @@
 				print "<label for='username'> " . $_SESSION['username'] . ": </label> ";
 			}
 			
-			print "<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1' required></textarea>";
+			print "<textarea name='tekstOdgovora' id='tekstOdgovora' cols='100' rows='1'></textarea>";
 			print "<input name='komentar_id' type='hidden' value='".$komentar["id"]."' >";
 			print "<input type='submit' value='Odgovori'>";
 			if(isset($_SESSION['username']) && $_SESSION['username'] == 'admin'){
@@ -278,7 +367,6 @@
 
 	function obrisiKomentarDB($komentarID){
 		$veza = konekcija();
-
 		$upit = $veza->prepare("DELETE FROM komentar WHERE id=:id");
 		$upit->bindValue(':id', $komentarID, PDO::PARAM_INT);
 		$upit->execute();
@@ -286,6 +374,9 @@
 
 	function obrisiKomentar($komentar){
 		$odgovori = nadjiOdgovore($komentar['id']);
+		$imaDjecu = false;
+		if($odgovori != false){$imaDjecu = true;}
+		print "<script>console.log(' usao odg " . $komentar['komentar'] . " djecu: " . $imaDjecu . "')</script>";
 		if($odgovori != false)
 		{
 			//ako ima odgovora ide dalje
@@ -293,15 +384,13 @@
 				$odgovori = nadjiOdgovore($odgovor['id']);
 				if($odgovori != false){
 					//obrisiKomentarDB($odgovor['id']);
-				
 					obrisiKomentar($odgovor);	
 				}
 				//print "<script>console.log(' usao odg " . $odgovor['komentar'] . "')</script>";
-				obrisiKomentarDB($odgovor['id']);
+				else obrisiKomentarDB($odgovor['id']);
 			}	
 		}
 		//ako nema odgovora brise komentar 
-		
 		//print "<script>console.log(' usao odg " . $komentar['komentar'] . "')</script>";
 		obrisiKomentarDB($komentar['id']);
 		return;

@@ -23,7 +23,7 @@
 	<section>
 		<!-- login -->
 		<form id="kontakt-forma" method="post" action="logout.php">
-			<label for="username">Vec ste logovani kao korisnik: <?php print $_SESSION['username'] ?> </label>	
+			<label for="username">Logovani ste kao korisnik: <?php print $_SESSION['username'] ?> </label>	
 			<br>
 			<input type="submit" name="logout" value="Log out">
 		</form>

@@ -11,13 +11,13 @@
 		include 'loginfunc.php';
 		$page = 'index';
 		include 'header.php';
-		include 'db.php';
 
-		$tekstKomentara = null;
-		$username = null;
 		//dodavanje komentara POST
 		include 'komentar.php';
 		$idVijesti = $_GET['id'];
+		//postavljanje procitanih komentara
+		postaviProcitaneKomentare($idVijesti);
+
 		//ucitavanje stranice
 
 		if(isset($_POST['obrisiVijest'])){

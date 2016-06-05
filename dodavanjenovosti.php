@@ -37,7 +37,6 @@
   			}
 			else {
 				//unos u bazu
-				include 'db.php';
 				unosVijesti($naslov, $opis, $datum, $urlSlike, $dozvoljeniKomentari);
 			} 
 			if($err != "") echo $err;

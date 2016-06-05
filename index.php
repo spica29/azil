@@ -4,14 +4,16 @@
 	<title>Azil za životinje</title>
 	<link rel="stylesheet" type="text/css" href="css/index.css">
 	<script type="text/javascript" src="js/index.js"></script>
-</head>
-<body>
-	<!-- login -->
 	<?php 
 		include 'loginfunc.php';
 		$page = 'index';
+		
 		include 'header.php';
+//		include 'db.php';
 	?>
+</head>
+<body onload="func();">
+	<!-- login -->
 	<nav id="vremenski">
 		<ul>
 			<li>
