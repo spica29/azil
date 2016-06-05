@@ -28,6 +28,7 @@
 
 		if(isset($_POST['obrisiKomentar'])){
 			$komentar = $_POST['komentar_id'];
+			//print "<script>console.log('komentar id: " . $komentar ."')</script>";
 			obrisiKomentar($komentar);
 		}
 

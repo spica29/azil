@@ -23,7 +23,6 @@
 		$veza = konekcija();
 		$autorID = nadjiAutora();
 
-
 		if($autorID == false) return;
 
 		$upit = $veza->prepare("SELECT id FROM novost WHERE autor_id = :id");
@@ -59,7 +58,17 @@
 	}
 
 	function ispisiNotifikaciju($idNovosti){
-		//print $_SESSION['username'];
+		//provjera je li vijest od autora koji je prijavljen
+		$autorID = nadjiAutora();
+
+		$veza = konekcija();
+		$upit = $veza->prepare("SELECT * From novost WHERE id = :id AND autor_id = :idAutora");
+		$upit->bindValue(':id', $idNovosti);
+		$upit->bindValue(':idAutora', $autorID);
+		$upit->execute();
+
+		if($upit->rowCount() <= 0) return; 
+
 		$broj = brojNeprocitanih($idNovosti);
 		if($broj > 0){
 			print "<p>Broj nepročitanih komentara: ";
@@ -322,7 +331,7 @@
 	function nadjiOdgovore($idParenta){
 		$veza = konekcija();
 		$upit = $veza->prepare("SELECT * FROM komentar WHERE komentar_id = :idParent");
-		$upit->bindValue(':idParent', $idParenta);
+		$upit->bindValue(':idParent', $idParenta, PDO::PARAM_INT);
 		$upit->execute();
 		
 		if($upit->rowCount() <= 0) {
@@ -373,10 +382,10 @@
 	}
 
 	function obrisiKomentar($komentar){
-		$odgovori = nadjiOdgovore($komentar['id']);
+		$odgovori = nadjiOdgovore($komentar);
 		$imaDjecu = false;
 		if($odgovori != false){$imaDjecu = true;}
-		print "<script>console.log(' usao odg " . $komentar['komentar'] . " djecu: " . $imaDjecu . "')</script>";
+		//print "<script>console.log(' komentar ID " . $komentar . " djecu: " . $imaDjecu . "')</script>";
 		if($odgovori != false)
 		{
 			//ako ima odgovora ide dalje
@@ -384,15 +393,15 @@
 				$odgovori = nadjiOdgovore($odgovor['id']);
 				if($odgovori != false){
 					//obrisiKomentarDB($odgovor['id']);
-					obrisiKomentar($odgovor);	
+					obrisiKomentar($odgovor['id']);	
 				}
 				//print "<script>console.log(' usao odg " . $odgovor['komentar'] . "')</script>";
-				else obrisiKomentarDB($odgovor['id']);
+				obrisiKomentarDB($odgovor['id']);
 			}	
 		}
 		//ako nema odgovora brise komentar 
 		//print "<script>console.log(' usao odg " . $komentar['komentar'] . "')</script>";
-		obrisiKomentarDB($komentar['id']);
+		obrisiKomentarDB($komentar);
 		return;
 		
 	}
