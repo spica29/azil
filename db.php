@@ -28,10 +28,15 @@
 		$upit = $veza->prepare("SELECT id FROM novost WHERE autor_id = :id");
 		$upit->bindValue(':id', $autorID);
 		$upit->execute();
-		//print "<script>console.log('autor: " . $upit->fetch(PDO::FETCH_LAZY)['id'] . "')</script>";
-		$idNovost = $upit->fetch(PDO::FETCH_LAZY)['id'];
+		print "<script>console.log('autor: " . $upit->fetch(PDO::FETCH_LAZY)['id'] . "')</script>";
+		//$idNovost = $upit->fetch(PDO::FETCH_LAZY)['id'];
 
-		if($idNovost != $idNovosti) return;		
+		$flag = false;
+		foreach($upit->fetchAll() as $novostAutora){
+			if($novostAutora == $idNovosti) return;	
+		}
+
+			
 
 		$upit = $veza->prepare("UPDATE komentar SET procitan=1 WHERE novost_id = :id");
 		$upit->bindValue(':id', $idNovosti);
@@ -66,7 +71,8 @@
 		$upit->bindValue(':id', $idNovosti);
 		$upit->bindValue(':idAutora', $autorID);
 		$upit->execute();
-
+		
+		//autor novosti nije korisnik koji je prijavljen
 		if($upit->rowCount() <= 0) return; 
 
 		$broj = brojNeprocitanih($idNovosti);
@@ -706,6 +712,32 @@
 		$upit = $veza->prepare("UPDATE novost SET komentaridozvoljeni=:kom WHERE id=:id");
 		$upit->bindValue(':id', $idNovosti, PDO::PARAM_INT);
 		$upit->bindValue(':kom', 1, PDO::PARAM_INT);
+		$upit->execute();
+	}
+
+	function potvrdiPW($stariPW){
+		$veza = konekcija();
+		$username = $_SESSION['username'];
+		$upit = $veza->prepare("SELECT * FROM korisnik WHERE username=:username AND password=md5(:password)");
+		$upit->bindValue(':username', $username);
+		$upit->bindValue(':password', $stariPW);
+		$upit->execute();
+
+		if($upit->rowCount() <= 0) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}
+
+	function promijeniPW($stariPW, $noviPW){
+		$veza = konekcija();
+		$username = $_SESSION['username'];
+		$upit = $veza->prepare("UPDATE korisnik SET password = md5(:novi) WHERE username=:username AND password=md5(:password)");
+		$upit->bindValue(':username', $username);
+		$upit->bindValue(':password', $stariPW);
+		$upit->bindValue(':novi', $noviPW);
 		$upit->execute();
 	}
 ?>

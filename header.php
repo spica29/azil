@@ -23,7 +23,7 @@
 	<ul>
 		<li><b><a <?php echo ($page == 'index') ? "class='active'" : ""; ?> href="index.php">NASLOVNICA</a></b></li>
 		<li><b><a <?php echo ($page == 'usvoji') ? "class='active'" : ""; ?> href="usvoji.php">USVOJI</a></b></li>
-		<!--<li><b><a <?php echo ($page == 'foster') ? "class='active'" : ""; ?> href="postanifoster.php">POSTANI FOSTER</a></b></li>-->
+		<!--<li><b><a <?php //echo ($page == 'foster') ? "class='active'" : ""; ?> href="postanifoster.php">POSTANI FOSTER</a></b></li>-->
 		<li><b><a <?php echo ($page == 'oazilu') ? "class='active'" : ""; ?> href="oazilu.php">O AZILU</a></b></li>
 		<li><b><a <?php echo ($page == 'contact') ? "class='active'" : ""; ?> href="contact.php">KONTAKT</a></b></li>
 		<?php
@@ -42,8 +42,13 @@
 				print " href='admin.php'>ADMIN</a></b></li>";
 			}
 
-			if(isset($_SESSION['username']) && $_SESSION['username'] != "admin"){
-				
+			if(isset($_SESSION['username']) && $_SESSION['username'] != "admin")
+			{				
+				//promjena passworda
+				print "<li><b><a ";
+				print ($page == 'account') ? "class='active'" : "";
+				print " href='account.php'>PROFIL</a></b></li>";
+				//notifikacije
 				print "<li id='notif'><a href='index.php'></a></li>";
 			}
 		?>

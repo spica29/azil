@@ -24,7 +24,7 @@ nav ul li a {
     display: block;
     color: white;
     text-align: center;
-    padding: 14px 30px;
+    padding: 14px 20px;
     text-decoration: none;
 }
 
@@ -43,7 +43,7 @@ section ul {
 }
 
 section ul li:hover {
-    list-style-image: url('images/dog-chihuahua-bone-icon.png');
+    list-style-image: url('/./images/dog-chihuahua-bone-icon.png');
     /*list-style-type: circle;*/
 }
 
