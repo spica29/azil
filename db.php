@@ -113,7 +113,9 @@
 	}	
 
 	function nadjiKorisnika(){
-		$username = $_SESSION['username'];
+		$username = NULL;
+		if(isset($_SESSION['username']))
+			$username = $_SESSION['username'];
 		$veza = konekcija();
 		$upit = $veza->prepare("SELECT id FROM korisnik WHERE username= :username");
 		$upit->bindValue(':username', $username);
